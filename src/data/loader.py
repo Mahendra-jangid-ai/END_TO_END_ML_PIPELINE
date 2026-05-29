@@ -5,6 +5,8 @@ Supports: CSV, JSON, JSONL, Excel, Parquet, HuggingFace Hub, local folders, stre
 from __future__ import annotations
 
 import os
+import csv
+import re
 from pathlib import Path
 from typing import Any
 
@@ -43,6 +45,83 @@ def _is_hf_dataset(name: str) -> bool:
     return "/" in name or "." not in name
 
 
+def _looks_like_data_token(value: Any) -> bool:
+    """Heuristic check to identify values that look like row data, not header names."""
+    s = str(value).strip()
+    if not s:
+        return False
+    if s.isdigit():
+        return True
+    if any(ch in s for ch in [",", " ", "@", "://"]):
+        return True
+    return False
+
+
+def _first_row_looks_like_header(path: str, sep: str) -> bool:
+    """Fallback heuristic when csv.Sniffer mis-detects headers."""
+    try:
+        with open(path, "r", encoding="utf-8", errors="ignore", newline="") as f:
+            reader = csv.reader(f, delimiter=sep)
+            first_row = next(reader, None)
+    except Exception:
+        return False
+
+    if not first_row:
+        return False
+
+    normalized = [str(col).strip().lower() for col in first_row]
+    if not all(normalized):
+        return False
+
+    header_token = re.compile(r"^[a-z_][a-z0-9_]*$")
+    known_header_words = {
+        "text", "label", "labels", "target", "source", "input", "output",
+        "instruction", "response", "question", "answer", "tokens", "score",
+        "summary", "translation",
+    }
+
+    all_headerish = all(
+        header_token.match(col) is not None and not _looks_like_data_token(col)
+        for col in normalized
+    )
+    known_hits = sum(col in known_header_words for col in normalized)
+    unique_cols = len(set(normalized)) == len(normalized)
+
+    return all_headerish and (known_hits >= 1 or unique_cols)
+
+
+def _read_csv_with_header_fallback(path: str, sep: str):
+    """Read CSV/TSV while handling headerless files safely."""
+    import pandas as pd
+
+    has_header = True
+    try:
+        with open(path, "r", encoding="utf-8", errors="ignore") as f:
+            sample = f.read(4096)
+        has_header = csv.Sniffer().has_header(sample)
+    except Exception:
+        # Keep default behavior if sniffer fails.
+        has_header = True
+
+    if not has_header and _first_row_looks_like_header(path, sep):
+        logger.info("Header fallback heuristic detected a valid header row")
+        has_header = True
+
+    if has_header:
+        df = pd.read_csv(path, sep=sep)
+        # Fallback: if all column names look like row data, reload as headerless.
+        if len(df.columns) > 0 and all(_looks_like_data_token(c) for c in df.columns):
+            logger.warning("CSV header looks invalid; reloading as headerless with generic column names")
+            df = pd.read_csv(path, sep=sep, header=None)
+            df.columns = [f"column_{i}" for i in range(len(df.columns))]
+    else:
+        logger.info("Detected headerless CSV/TSV; assigning generic column names")
+        df = pd.read_csv(path, sep=sep, header=None)
+        df.columns = [f"column_{i}" for i in range(len(df.columns))]
+
+    return df
+
+
 # ---------------------------------------------------------------------------
 # Loader
 # ---------------------------------------------------------------------------
@@ -73,7 +152,7 @@ def load_dataset(cfg: DictConfig):
 
         if fmt == "csv":
             sep = "\t" if name.endswith(".tsv") else ","
-            df = pd.read_csv(name, sep=sep)
+            df = _read_csv_with_header_fallback(name, sep=sep)
         elif fmt == "json":
             df = pd.read_json(name, lines=name.endswith(".jsonl"))
         elif fmt == "parquet":
@@ -146,10 +225,12 @@ def _finalize(ds, cfg: DictConfig):
             "test": ds["test"],
         })
     elif "test" not in ds and "validation" in ds:
+        logger.info("Creating test split from validation to avoid val/test leakage")
+        val_test = ds["validation"].train_test_split(test_size=0.5, seed=seed)
         ds = DatasetDict({
             "train": ds["train"],
-            "validation": ds["validation"],
-            "test": ds["validation"],  # reuse val as test
+            "validation": val_test["train"],
+            "test": val_test["test"],
         })
 
     # Apply max_samples
