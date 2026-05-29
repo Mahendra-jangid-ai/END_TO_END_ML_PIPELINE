@@ -1,0 +1,6 @@
+max_length: null         # auto-detected from model config
+padding: true
+truncation: true
+padding_side: right
+add_special_tokens: true
+use_fast: true

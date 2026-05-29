@@ -1,0 +1,13 @@
+# Dataset config - auto-detected at runtime
+name: null               # HuggingFace dataset name OR local file path
+text_column: null        # auto-detected
+label_column: null       # auto-detected
+input_column: null       # auto-detected (for seq2seq)
+output_column: null      # auto-detected (for seq2seq)
+instruction_column: null # auto-detected (for instruction tuning)
+max_samples: null        # null = use all data
+test_size: 0.1
+val_size: 0.1
+streaming: false
+seed: 42
+cache_dir: data/.cache

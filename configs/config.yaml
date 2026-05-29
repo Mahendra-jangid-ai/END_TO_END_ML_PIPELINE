@@ -1,0 +1,18 @@
+defaults:
+  - dataset: auto
+  - model: auto
+  - tokenizer: auto
+  - trainer: auto
+  - task: auto
+  - unsloth: auto
+  - lora: auto
+  - optimization: auto
+  - mlflow: default
+  - experiment: default
+  - _self_
+
+# Global overrides
+seed: 42
+output_dir: outputs
+checkpoint_dir: checkpoints
+debug: false

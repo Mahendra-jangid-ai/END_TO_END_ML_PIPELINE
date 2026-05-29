@@ -1,0 +1,5 @@
+name: null               # auto-detected: classification, regression, token_classification, seq2seq, causal_lm
+num_labels: null         # auto-detected
+label2id: null           # auto-detected
+id2label: null           # auto-detected
+problem_type: null       # auto-detected

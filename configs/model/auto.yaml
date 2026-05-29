@@ -1,0 +1,9 @@
+# Model config - auto-detected at runtime
+name: null               # HuggingFace model name
+cache_dir: data/.cache
+trust_remote_code: true
+revision: main
+dtype: auto              # auto, float16, bfloat16, float32
+device_map: auto
+load_in_4bit: null       # auto-determined based on model size
+load_in_8bit: null       # auto-determined based on model size

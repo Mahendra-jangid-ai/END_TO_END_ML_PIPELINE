@@ -1,0 +1,9 @@
+enabled: null            # auto-detected
+r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+target_modules: null     # auto-detected per model family
+bias: none
+task_type: null          # auto-set
+use_rslora: false
+use_dora: false

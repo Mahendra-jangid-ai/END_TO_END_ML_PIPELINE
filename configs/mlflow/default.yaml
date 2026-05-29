@@ -1,0 +1,7 @@
+tracking_uri: mlruns
+experiment_name: nlp_automl
+run_name: null           # auto-generated
+log_model: true
+log_artifacts: true
+log_system_metrics: true
+tags: {}
