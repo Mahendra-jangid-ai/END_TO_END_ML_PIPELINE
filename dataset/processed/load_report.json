@@ -1,0 +1,72 @@
+{
+  "splits": {
+    "train": {
+      "path": "dataset\\processed\\train.parquet",
+      "rows": 12,
+      "format": "parquet",
+      "num_columns": 2,
+      "columns": [
+        "review_text",
+        "rating"
+      ]
+    },
+    "validation": {
+      "path": "dataset\\processed\\validation.parquet",
+      "rows": 1,
+      "format": "parquet",
+      "num_columns": 2,
+      "columns": [
+        "review_text",
+        "rating"
+      ]
+    },
+    "test": {
+      "path": "dataset\\processed\\test.parquet",
+      "rows": 2,
+      "format": "parquet",
+      "num_columns": 2,
+      "columns": [
+        "review_text",
+        "rating"
+      ]
+    }
+  },
+  "total_splits": 3,
+  "detected_task": "classification",
+  "task_info": {
+    "task": "classification",
+    "sub_task": "multi_class_classification",
+    "text_column": "review_text",
+    "label_column": "rating",
+    "input_column": null,
+    "output_column": null,
+    "instruction_column": null,
+    "context_column": null,
+    "num_labels": 4,
+    "label2id": {
+      "2": 0,
+      "3": 1,
+      "4": 2,
+      "5": 3
+    },
+    "id2label": {
+      "0": "2",
+      "1": "3",
+      "2": "4",
+      "3": "5"
+    },
+    "problem_type": "single_label_classification",
+    "detected_columns": {
+      "text": [],
+      "label": [],
+      "all": [
+        "review_text",
+        "rating"
+      ]
+    }
+  },
+  "artifacts": {
+    "task_info_json": "dataset\\processed\\task_info.json",
+    "task_name_file": "dataset\\processed\\detected_task.txt"
+  }
+}

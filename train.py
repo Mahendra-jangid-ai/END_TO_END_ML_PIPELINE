@@ -71,6 +71,19 @@ def _cfg_without_nones(cfg: DictConfig) -> DictConfig:
     return OmegaConf.create(cleaned)
 
 
+def _to_json_safe(value: Any) -> Any:
+    """Convert OmegaConf and nested containers into JSON-serializable objects."""
+    if isinstance(value, DictConfig):
+        return _to_json_safe(OmegaConf.to_container(value, resolve=True))
+    if isinstance(value, dict):
+        return {str(key): _to_json_safe(nested) for key, nested in value.items()}
+    if isinstance(value, list):
+        return [_to_json_safe(item) for item in value]
+    if isinstance(value, tuple):
+        return [_to_json_safe(item) for item in value]
+    return value
+
+
 def _load_project_config(config_path: str = "configs/config.yaml") -> DictConfig:
     """Compose project config from Hydra-style defaults list."""
     root_path = Path(config_path)
@@ -168,7 +181,7 @@ def save_task_info(task_info: dict[str, Any], save_dir: str) -> dict[str, str]:
 
     task_json_path = p / "task_info.json"
     with open(task_json_path, "w", encoding="utf-8") as f:
-        json.dump(task_info, f, indent=2, ensure_ascii=False)
+        json.dump(_to_json_safe(task_info), f, indent=2, ensure_ascii=False)
 
     # Single-file quick view for "which task" requirement.
     task_name_path = p / "detected_task.txt"
@@ -186,7 +199,7 @@ def save_load_report(report: dict[str, Any], save_dir: str) -> str:
     p = ensure_dir(save_dir)
     report_path = p / "load_report.json"
     with open(report_path, "w", encoding="utf-8") as f:
-        json.dump(report, f, indent=2)
+        json.dump(_to_json_safe(report), f, indent=2)
     return str(report_path)
 
 

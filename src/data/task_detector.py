@@ -2,31 +2,37 @@
 Automatic NLP task detection from dataset schema and content.
 
 Detects:
-  - classification (binary / multi-class)
+  - classification       (binary / multi-class)
   - regression
-  - token_classification (NER, POS)
-  - seq2seq (summarization, translation, QA)
-  - causal_lm (instruction tuning, chatbot, text generation)
+  - token_classification (NER, POS, chunking)
+  - seq2seq              (summarization, translation, QA)
+  - causal_lm            (instruction tuning, chatbot, text generation)
+  - ner                  (explicit NER alias)
+  - qa                   (question answering)
+  - summarization        (article → summary)
+  - translation          (src_lang → tgt_lang)
+  - chatbot              (multi-turn dialog)
+  - instruction_tuning   (instruction + response)
+  - rag                  (retrieval-augmented generation)
 """
 from __future__ import annotations
 
 import re
-from numbers import Real
 from typing import Any
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 
 from src.utils.common import get_logger
 
 logger = get_logger(__name__)
 
 # ---------------------------------------------------------------------------
-# Known column name patterns
+# Column name patterns
 # ---------------------------------------------------------------------------
 
 _TEXT_PATTERNS = re.compile(
     r"^(text|sentence|content|body|review|comment|document|passage|"
-    r"question|input|source|premise|hypothesis|tweet|post)s?$",
+    r"question|input|source|premise|hypothesis|tweet|post|context)s?$",
     re.IGNORECASE,
 )
 _LABEL_PATTERNS = re.compile(
@@ -34,15 +40,35 @@ _LABEL_PATTERNS = re.compile(
     r"output|answer|response|intent|y)s?$",
     re.IGNORECASE,
 )
-_SEQ2SEQ_SRC = re.compile(r"^(source|src|input|question|article|document|premise)$", re.IGNORECASE)
-_SEQ2SEQ_TGT = re.compile(r"^(target|tgt|output|answer|summary|translation|hypothesis|response)$", re.IGNORECASE)
+_TABULAR_LABEL_HINTS = re.compile(
+    r"(label|target|class|category|sentiment|intent|output|answer|response|"
+    r"purchase|purchased|buy|bought|churn|clicked|converted|conversion|"
+    r"fraud|spam|default|approved|accept|pass|survived|survive|won|positive|negative)",
+    re.IGNORECASE,
+)
+_IDENTIFIER_PATTERNS = re.compile(r"(^id$|_id$|^id_|user id|uuid|index)", re.IGNORECASE)
+_SEQ2SEQ_SRC = re.compile(
+    r"^(source|src|input|question|article|document|premise|context|text)$",
+    re.IGNORECASE,
+)
+_SEQ2SEQ_TGT = re.compile(
+    r"^(target|tgt|output|answer|summary|translation|hypothesis|response|highlights)$",
+    re.IGNORECASE,
+)
 _INSTRUCTION_PATTERNS = re.compile(r"^(instruction|prompt|system|user_input)s?$", re.IGNORECASE)
-_TOKEN_LABEL_PATTERNS = re.compile(r"^(ner_tags|pos_tags|chunk_tags|labels|tags)$", re.IGNORECASE)
-_CONV_PATTERNS = re.compile(r"^(conversation|messages|chat|dialog|dialogue)s?$", re.IGNORECASE)
+_TOKEN_LABEL_PATTERNS  = re.compile(r"^(ner_tags|pos_tags|chunk_tags|labels|tags)$", re.IGNORECASE)
+_CONV_PATTERNS         = re.compile(r"^(conversation|messages|chat|dialog|dialogue)s?$", re.IGNORECASE)
+_SUMMARY_SRC           = re.compile(r"^(article|document|body|text|content|passage)s?$", re.IGNORECASE)
+_SUMMARY_TGT           = re.compile(r"^(summary|summaries|highlights|abstract)s?$", re.IGNORECASE)
+_TRANS_SRC             = re.compile(r"^(translation\.|en_|src_|source_)", re.IGNORECASE)
+_QA_Q                  = re.compile(r"^question$", re.IGNORECASE)
+_QA_A                  = re.compile(r"^(answer|answers|response)$", re.IGNORECASE)
+_QA_CONTEXT            = re.compile(r"^(context|passage|document)$", re.IGNORECASE)
+_RAG_PATTERNS          = re.compile(r"^(retrieved|retrieval|chunks|documents|contexts|evidence)s?$", re.IGNORECASE)
 
 
 # ---------------------------------------------------------------------------
-# Column discovery
+# Helpers
 # ---------------------------------------------------------------------------
 
 def _get_columns(dataset) -> list[str]:
@@ -52,136 +78,143 @@ def _get_columns(dataset) -> list[str]:
     return dataset.column_names
 
 
-def _get_sample(dataset, n: int = 50) -> list[dict]:
+def _get_sample(dataset, n: int = 10) -> list[dict]:
     from datasets import DatasetDict
     split = dataset["train"] if isinstance(dataset, DatasetDict) else dataset
     return [split[i] for i in range(min(n, len(split)))]
 
 
-# ---------------------------------------------------------------------------
-# Detection helpers
-# ---------------------------------------------------------------------------
-
-def _find_text_columns(columns: list[str]) -> list[str]:
-    return [c for c in columns if _TEXT_PATTERNS.match(c)]
+def _find_text_columns(columns):   return [c for c in columns if _TEXT_PATTERNS.match(c)]
+def _find_label_columns(columns):  return [c for c in columns if _LABEL_PATTERNS.match(c)]
 
 
-def _find_label_columns(columns: list[str]) -> list[str]:
-    return [c for c in columns if _LABEL_PATTERNS.match(c)]
+def _looks_like_identifier(column: str) -> bool:
+    return bool(_IDENTIFIER_PATTERNS.search(column))
 
 
-def _find_seq2seq_columns(columns: list[str]) -> tuple[str | None, str | None]:
+def _infer_tabular_label_column(columns: list[str], samples: list[dict]) -> str | None:
+    """Infer a low-cardinality target column from tabular samples."""
+    best_column: str | None = None
+    best_score = float("-inf")
+
+    for index, column in enumerate(columns):
+        if _looks_like_identifier(column):
+            continue
+
+        values = [sample.get(column) for sample in samples if sample.get(column) is not None]
+        if len(values) < 2:
+            continue
+
+        unique_values = {str(value).strip().lower() for value in values}
+        unique_count = len(unique_values)
+        if unique_count < 2 or unique_count > min(20, len(values)):
+            continue
+
+        if any(isinstance(value, str) and len(value.strip()) >= 40 for value in values):
+            continue
+
+        score = float(unique_count)
+        if _LABEL_PATTERNS.match(column) or _TABULAR_LABEL_HINTS.search(column):
+            score += 20.0
+        if unique_count <= 4:
+            score += 5.0
+        if all(not isinstance(value, str) or len(value.strip()) <= 12 for value in values):
+            score += 1.0
+
+        # Prefer later columns when everything else is tied; tabular targets are often last.
+        score += index / 1000.0
+
+        if score > best_score:
+            best_score = score
+            best_column = column
+
+    return best_column
+
+
+def _infer_tabular_text_column(columns: list[str], label_column: str | None) -> str | None:
+    for column in columns:
+        if column == label_column:
+            continue
+        if _looks_like_identifier(column):
+            continue
+        return column
+    return None
+
+
+def _find_seq2seq_columns(columns):
     src = next((c for c in columns if _SEQ2SEQ_SRC.match(c)), None)
     tgt = next((c for c in columns if _SEQ2SEQ_TGT.match(c)), None)
     return src, tgt
 
 
-def _infer_text_and_label_columns(columns: list[str], samples: list[dict]) -> tuple[str | None, str | None]:
-    """Infer likely text/label columns using value patterns when names are unhelpful."""
-    if not samples:
-        return None, None
-
-    stats: dict[str, dict[str, Any]] = {}
-    for c in columns:
-        values = [s.get(c) for s in samples if s.get(c) is not None]
-        if not values:
-            continue
-
-        str_values = [v for v in values if isinstance(v, str)]
-        str_ratio = len(str_values) / len(values)
-        avg_len = sum(len(v.strip()) for v in str_values) / len(str_values) if str_values else 0.0
-        uniq = len(set(str(v).strip().lower() for v in values))
-
-        stats[c] = {
-            "str_ratio": str_ratio,
-            "avg_len": avg_len,
-            "uniq": uniq,
-            "total": len(values),
-        }
-
-    if not stats:
-        return None, None
-
-    # Text column tends to be string-heavy and longer content.
-    text_candidates = [
-        c for c, st in stats.items()
-        if st["str_ratio"] >= 0.8 and st["avg_len"] >= 20
-    ]
-    text_col = max(text_candidates, key=lambda c: stats[c]["avg_len"]) if text_candidates else None
-
-    # Label column tends to be low-cardinality and relatively short values.
-    label_candidates = [
-        c for c, st in stats.items()
-        if st["uniq"] >= 2 and st["uniq"] <= min(20, st["total"]) and st["avg_len"] <= 30
-    ]
-
-    # Avoid selecting the same column for both roles.
-    if text_col in label_candidates:
-        label_candidates = [c for c in label_candidates if c != text_col]
-
-    label_col = min(label_candidates, key=lambda c: stats[c]["uniq"]) if label_candidates else None
-    return text_col, label_col
-
-
-def _is_token_classification(columns: list[str], samples: list[dict]) -> bool:
-    """Check if labels are lists (token-level)."""
+def _is_token_classification(columns, samples):
     label_cols = _find_label_columns(columns)
     if not label_cols:
         return False
     label_col = label_cols[0]
+    return any(isinstance(s.get(label_col), list) for s in samples)
+
+
+def _is_regression(label_col, samples):
+    if not label_col:
+        return False
     for s in samples:
-        if isinstance(s.get(label_col), list):
+        val = s.get(label_col)
+        if isinstance(val, float):
             return True
+        if isinstance(val, str):
+            try:
+                float(val)
+                return True
+            except (ValueError, TypeError):
+                pass
     return False
 
 
-def _is_regression(label_col: str | None, samples: list[dict]) -> bool:
-    if label_col is None:
-        return False
-    values = [s.get(label_col) for s in samples if s.get(label_col) is not None]
-    if not values:
-        return False
-
-    parsed: list[float] = []
-    for val in values:
-        if isinstance(val, bool):
-            return False
-        if isinstance(val, Real):
-            parsed.append(float(val))
-            continue
-        if isinstance(val, str) and _is_float(val):
-            parsed.append(float(val))
-            continue
-        return False
-
-    if not parsed:
-        return False
-
-    # Any clear decimal signal strongly indicates regression.
-    for x in parsed:
-        if abs(x - round(x)) > 1e-9:
-            return True
-
-    n = len(parsed)
-    unique_count = len(set(parsed))
-    unique_ratio = unique_count / max(n, 1)
-
-    # Integer labels with low cardinality are usually classification.
-    return unique_count > max(20, int(0.35 * n)) or unique_ratio > 0.7
-
-
-def _is_float(v: str) -> bool:
-    try:
-        float(v)
-        return True
-    except (ValueError, TypeError):
-        return False
-
-
-def _count_unique_labels(dataset, label_col: str) -> int:
+def _count_unique_labels(dataset, label_col):
     from datasets import DatasetDict
     split = dataset["train"] if isinstance(dataset, DatasetDict) else dataset
     return len(set(split[label_col]))
+
+
+# ---------------------------------------------------------------------------
+# Sub-task detectors
+# ---------------------------------------------------------------------------
+
+def _detect_summarization(columns):
+    """Detect summarization: long article → short summary."""
+    src = next((c for c in columns if _SUMMARY_SRC.match(c)), None)
+    tgt = next((c for c in columns if _SUMMARY_TGT.match(c)), None)
+    return src, tgt
+
+
+def _detect_translation(columns):
+    """Detect translation: may have nested dict like {'en': ..., 'fr': ...}."""
+    # Look for 'translation' column that holds a dict
+    if "translation" in columns:
+        return True, "translation"
+    src_langs = [c for c in columns if _TRANS_SRC.match(c)]
+    return (len(src_langs) >= 2), None
+
+
+def _detect_qa(columns):
+    """Detect QA: question + (context) + answer."""
+    has_q = any(_QA_Q.match(c) for c in columns)
+    has_a = any(_QA_A.match(c) for c in columns)
+    has_ctx = any(_QA_CONTEXT.match(c) for c in columns)
+    if has_q and has_a:
+        q_col = next(c for c in columns if _QA_Q.match(c))
+        a_col = next(c for c in columns if _QA_A.match(c))
+        ctx_col = next((c for c in columns if _QA_CONTEXT.match(c)), None)
+        return True, q_col, a_col, ctx_col
+    return False, None, None, None
+
+
+def _detect_rag(columns):
+    """Detect RAG: retrieved documents + question + answer."""
+    has_rag  = any(_RAG_PATTERNS.match(c) for c in columns)
+    has_q    = any(_QA_Q.match(c) for c in columns)
+    return has_rag and has_q
 
 
 # ---------------------------------------------------------------------------
@@ -190,18 +223,14 @@ def _count_unique_labels(dataset, label_col: str) -> int:
 
 class TaskDetector:
     """
-    Inspects a HuggingFace dataset and returns a TaskInfo dict:
-      {
-        task: str,
-        text_column: str,
-        label_column: str | None,
-        input_column: str | None,
-        output_column: str | None,
-        num_labels: int | None,
-        label2id: dict | None,
-        id2label: dict | None,
-        problem_type: str | None,
-      }
+    Inspects a HuggingFace dataset and returns a TaskInfo dict.
+
+    Returns
+    -------
+    dict with keys:
+        task, text_column, label_column, input_column, output_column,
+        instruction_column, context_column, num_labels, label2id, id2label,
+        problem_type, sub_task, detected_columns
     """
 
     def detect(self, dataset, cfg: DictConfig) -> dict[str, Any]:
@@ -210,96 +239,153 @@ class TaskDetector:
 
         logger.info(f"Dataset columns: {columns}")
 
-        # Override from config if user specified
-        text_col: str | None = cfg.dataset.text_column
+        # Config overrides
+        text_col:  str | None = cfg.dataset.text_column
         label_col: str | None = cfg.dataset.label_column
 
         task_info: dict[str, Any] = {
-            "task": None,
-            "text_column": text_col,
-            "label_column": label_col,
-            "input_column": cfg.dataset.input_column,
-            "output_column": cfg.dataset.output_column,
-            "instruction_column": cfg.dataset.instruction_column,
-            "num_labels": None,
-            "label2id": None,
-            "id2label": None,
-            "problem_type": None,
+            "task":                None,
+            "sub_task":            None,         # finer label (ner, qa, summarization…)
+            "text_column":         text_col,
+            "label_column":        label_col,
+            "input_column":        cfg.dataset.input_column,
+            "output_column":       cfg.dataset.output_column,
+            "instruction_column":  cfg.dataset.instruction_column,
+            "context_column":      None,
+            "num_labels":          None,
+            "label2id":            None,
+            "id2label":            None,
+            "problem_type":        None,
+            "detected_columns": {
+                "text":        _find_text_columns(columns),
+                "label":       _find_label_columns(columns),
+                "all":         columns,
+            },
         }
 
-        # ------------------------------------------------- #
-        # 1. Conversational / instruction format             #
-        # ------------------------------------------------- #
-        conv_cols = [c for c in columns if _CONV_PATTERNS.match(c)]
-        inst_cols = [c for c in columns if _INSTRUCTION_PATTERNS.match(c)]
-        if conv_cols or inst_cols:
-            logger.info("Detected: causal_lm (conversational/instruction format)")
-            task_info["task"] = "causal_lm"
-            task_info["text_column"] = (inst_cols or conv_cols)[0]
+        # ── 0. User forced task via config ──────────────────────────────── #
+        forced_task = getattr(cfg.dataset, "task", None) or getattr(getattr(cfg, "task", None), "name", None)
+        if forced_task and forced_task != "auto":
+            logger.info(f"Task forced by config: {forced_task}")
+            task_info["task"] = forced_task
+            task_info["sub_task"] = forced_task
+            self._fill_columns(task_info, columns, samples, dataset)
             return task_info
 
-        # ------------------------------------------------- #
-        # 2. Seq2seq (two text columns: src + tgt)          #
-        # ------------------------------------------------- #
+        # ── 1. RAG ──────────────────────────────────────────────────────── #
+        if _detect_rag(columns):
+            logger.info("Detected: RAG (retrieved context + QA)")
+            task_info["task"]    = "seq2seq"
+            task_info["sub_task"] = "rag"
+            qa_ok, q_col, a_col, ctx_col = _detect_qa(columns)
+            task_info["input_column"]   = task_info["input_column"] or q_col
+            task_info["output_column"]  = task_info["output_column"] or a_col
+            task_info["context_column"] = ctx_col or next((c for c in columns if _RAG_PATTERNS.match(c)), None)
+            return task_info
+
+        # ── 2. Conversational / chatbot ──────────────────────────────────── #
+        conv_cols = [c for c in columns if _CONV_PATTERNS.match(c)]
+        if conv_cols:
+            logger.info("Detected: chatbot (conversational format)")
+            task_info["task"]    = "causal_lm"
+            task_info["sub_task"] = "chatbot"
+            task_info["text_column"] = conv_cols[0]
+            return task_info
+
+        # ── 3. Instruction tuning ────────────────────────────────────────── #
+        inst_cols = [c for c in columns if _INSTRUCTION_PATTERNS.match(c)]
+        if inst_cols:
+            logger.info("Detected: instruction_tuning")
+            task_info["task"]    = "causal_lm"
+            task_info["sub_task"] = "instruction_tuning"
+            task_info["instruction_column"] = task_info["instruction_column"] or inst_cols[0]
+            out_col = task_info["output_column"] or next(
+                (c for c in columns if _SEQ2SEQ_TGT.match(c)), None
+            )
+            task_info["output_column"] = out_col
+            return task_info
+
+        # ── 4. QA ────────────────────────────────────────────────────────── #
+        qa_ok, q_col, a_col, ctx_col = _detect_qa(columns)
+        if qa_ok:
+            logger.info(f"Detected: QA  (q='{q_col}', a='{a_col}', ctx='{ctx_col}')")
+            task_info["task"]    = "seq2seq"
+            task_info["sub_task"] = "qa"
+            task_info["input_column"]   = task_info["input_column"]  or q_col
+            task_info["output_column"]  = task_info["output_column"] or a_col
+            task_info["context_column"] = ctx_col
+            return task_info
+
+        # ── 5. Summarization ─────────────────────────────────────────────── #
+        s_src, s_tgt = _detect_summarization(columns)
+        if s_src and s_tgt:
+            logger.info(f"Detected: summarization  (src='{s_src}', tgt='{s_tgt}')")
+            task_info["task"]    = "seq2seq"
+            task_info["sub_task"] = "summarization"
+            task_info["input_column"]  = task_info["input_column"]  or s_src
+            task_info["output_column"] = task_info["output_column"] or s_tgt
+            return task_info
+
+        # ── 6. Translation ───────────────────────────────────────────────── #
+        is_trans, trans_col = _detect_translation(columns)
+        if is_trans:
+            logger.info("Detected: translation")
+            task_info["task"]    = "seq2seq"
+            task_info["sub_task"] = "translation"
+            if trans_col:
+                task_info["input_column"]  = task_info["input_column"]  or trans_col
+                task_info["output_column"] = task_info["output_column"] or trans_col
+            return task_info
+
+        # ── 7. Generic seq2seq (two text columns: src + tgt) ─────────────── #
         src_col, tgt_col = _find_seq2seq_columns(columns)
         if src_col and tgt_col:
             logger.info(f"Detected: seq2seq  (src='{src_col}', tgt='{tgt_col}')")
-            task_info["task"] = "seq2seq"
-            task_info["input_column"] = task_info["input_column"] or src_col
+            task_info["task"]   = "seq2seq"
+            task_info["sub_task"] = "seq2seq"
+            task_info["input_column"]  = task_info["input_column"]  or src_col
             task_info["output_column"] = task_info["output_column"] or tgt_col
             return task_info
 
-        # ------------------------------------------------- #
-        # 3. Token classification                           #
-        # ------------------------------------------------- #
+        # ── 8. Token classification / NER ────────────────────────────────── #
         if _is_token_classification(columns, samples):
             label_cols = _find_label_columns(columns)
-            text_cols = _find_text_columns(columns) or ["tokens"]
-            logger.info("Detected: token_classification (NER/POS)")
-            task_info["task"] = "token_classification"
-            task_info["text_column"] = task_info["text_column"] or (text_cols[0] if text_cols else columns[0])
+            text_cols  = _find_text_columns(columns) or ["tokens"]
+            # Distinguish NER from POS by column name
+            sub = "ner" if any("ner" in c.lower() for c in columns) else "token_classification"
+            logger.info(f"Detected: {sub} (token-level labels)")
+            task_info["task"]    = "token_classification"
+            task_info["sub_task"] = sub
+            task_info["text_column"]  = task_info["text_column"]  or (text_cols[0]  if text_cols  else columns[0])
             task_info["label_column"] = task_info["label_column"] or (label_cols[0] if label_cols else None)
             self._enrich_classification_info(dataset, task_info)
-            task_info["problem_type"] = "token_classification"
             return task_info
 
-        # ------------------------------------------------- #
-        # 4. Find text + label columns                      #
-        # ------------------------------------------------- #
-        text_cols = _find_text_columns(columns)
+        # ── 9. Find text + label columns ─────────────────────────────────── #
+        text_cols  = _find_text_columns(columns)
         label_cols = _find_label_columns(columns)
 
-        # Fallback for anonymous schemas like column_0, column_1, ...
-        if not text_cols or not label_cols:
-            inferred_text, inferred_label = _infer_text_and_label_columns(columns, samples)
-            if inferred_text and inferred_text not in text_cols:
-                text_cols.append(inferred_text)
-            if inferred_label and inferred_label not in label_cols:
-                label_cols.append(inferred_label)
+        if not task_info["text_column"]:
+            task_info["text_column"] = text_cols[0] if text_cols else _infer_tabular_text_column(columns, task_info["label_column"])
+        if not task_info["label_column"]:
+            task_info["label_column"] = label_cols[0] if label_cols else _infer_tabular_label_column(columns, samples)
 
-        if not text_col:
-            task_info["text_column"] = text_cols[0] if text_cols else columns[0]
-        if not label_col:
-            task_info["label_column"] = label_cols[0] if label_cols else None
-
-        # ------------------------------------------------- #
-        # 5. Regression                                     #
-        # ------------------------------------------------- #
+        # ── 10. Regression ───────────────────────────────────────────────── #
         if _is_regression(task_info["label_column"], samples):
             logger.info("Detected: regression")
-            task_info["task"] = "regression"
-            task_info["num_labels"] = 1
-            task_info["problem_type"] = "regression"
+            task_info["task"]    = "regression"
+            task_info["sub_task"] = "regression"
+            task_info["num_labels"]    = 1
+            task_info["problem_type"]  = "regression"
             return task_info
 
-        # ------------------------------------------------- #
-        # 6. Classification                                 #
-        # ------------------------------------------------- #
+        # ── 11. Classification ───────────────────────────────────────────── #
         if task_info["label_column"]:
-            task_info["task"] = "classification"
             self._enrich_classification_info(dataset, task_info)
-            n = task_info["num_labels"]
-            ptype = "single_label_classification"
+            n     = task_info["num_labels"]
+            ptype = "single_label_classification" if n and n > 1 else "regression"
+            task_info["task"]    = "classification"
+            task_info["sub_task"] = "binary_classification" if n == 2 else "multi_class_classification"
             task_info["problem_type"] = ptype
             logger.info(
                 f"Detected: classification  (num_labels={n}, "
@@ -308,63 +394,43 @@ class TaskDetector:
             )
             return task_info
 
-        # ------------------------------------------------- #
-        # 7. Fallback: causal LM (pure text)               #
-        # ------------------------------------------------- #
-        logger.info("No labels found → defaulting to causal_lm")
-        task_info["task"] = "causal_lm"
+        # ── 12. Fallback: causal LM ──────────────────────────────────────── #
+        logger.info("No labels / structure found → defaulting to causal_lm")
+        task_info["task"]    = "causal_lm"
+        task_info["sub_task"] = "text_generation"
         task_info["text_column"] = task_info["text_column"] or columns[0]
         return task_info
 
     # ------------------------------------------------------------------
 
-    def _enrich_classification_info(self, dataset, task_info: dict) -> None:
+    def _fill_columns(self, task_info, columns, samples, dataset):
+        """Populate column fields when task is forced via config."""
+        text_cols  = _find_text_columns(columns)
+        label_cols = _find_label_columns(columns)
+        if not task_info["text_column"]:
+            task_info["text_column"] = text_cols[0] if text_cols else (columns[0] if columns else None)
+        if not task_info["label_column"]:
+            task_info["label_column"] = label_cols[0] if label_cols else None
+        if task_info["task"] in ("classification", "token_classification"):
+            self._enrich_classification_info(dataset, task_info)
+
+    def _enrich_classification_info(self, dataset, task_info):
         """Populate num_labels, label2id, id2label."""
-        from datasets import DatasetDict, ClassLabel
-
+        from datasets import DatasetDict
         label_col = task_info["label_column"]
-        if label_col is None:
+        if not label_col:
             return
-
         split = dataset["train"] if isinstance(dataset, DatasetDict) else dataset
-
-        # Check if it's a ClassLabel feature
         features = split.features
         if label_col in features:
             feat = features[label_col]
-            if hasattr(feat, "names"):  # ClassLabel
+            if hasattr(feat, "names"):
                 names = feat.names
                 task_info["num_labels"] = len(names)
-                task_info["label2id"] = {n: i for i, n in enumerate(names)}
-                task_info["id2label"] = {i: n for i, n in enumerate(names)}
+                task_info["label2id"]   = {n: i for i, n in enumerate(names)}
+                task_info["id2label"]   = {i: n for i, n in enumerate(names)}
                 return
-
-            # Sequence(ClassLabel) for token classification datasets
-            if hasattr(feat, "feature") and isinstance(feat.feature, ClassLabel):
-                names = feat.feature.names
-                task_info["num_labels"] = len(names)
-                task_info["label2id"] = {n: i for i, n in enumerate(names)}
-                task_info["id2label"] = {i: n for i, n in enumerate(names)}
-                return
-
-        # Token-level labels as list[int]/list[str]
-        sample_value = split[0][label_col] if len(split) > 0 else None
-        if isinstance(sample_value, list):
-            token_values: set[str] = set()
-            for seq in split[label_col]:
-                if isinstance(seq, list):
-                    for item in seq:
-                        token_values.add(str(item))
-
-            labels = sorted(token_values)
-            task_info["num_labels"] = len(labels)
-            task_info["label2id"] = {l: i for i, l in enumerate(labels)}
-            task_info["id2label"] = {i: l for i, l in enumerate(labels)}
-            return
-
-        # Infer from data
-        labels = list(set(str(x) for x in split[label_col]))
-        labels.sort()
+        labels = sorted(set(str(x) for x in split[label_col]))
         task_info["num_labels"] = len(labels)
-        task_info["label2id"] = {l: i for i, l in enumerate(labels)}
-        task_info["id2label"] = {i: l for i, l in enumerate(labels)}
+        task_info["label2id"]   = {l: i for i, l in enumerate(labels)}
+        task_info["id2label"]   = {i: l for i, l in enumerate(labels)}

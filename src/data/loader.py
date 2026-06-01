@@ -12,6 +12,7 @@ from typing import Any
 
 from omegaconf import DictConfig
 
+from src.preprocessing.preprocessor import preprocess_dataset
 from src.utils.common import get_logger
 
 logger = get_logger(__name__)
@@ -198,6 +199,8 @@ def _finalize(ds, cfg: DictConfig):
     # Normalize to DatasetDict
     if isinstance(ds, Dataset):
         ds = DatasetDict({"train": ds})
+
+    ds = preprocess_dataset(ds, cfg)
 
     # Create missing splits
     if "train" not in ds:
