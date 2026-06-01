@@ -200,7 +200,24 @@ def _finalize(ds, cfg: DictConfig):
     if isinstance(ds, Dataset):
         ds = DatasetDict({"train": ds})
 
-    ds = preprocess_dataset(ds, cfg)
+    cleaning_report = None
+    quality_report = None
+    row_level_audit = None
+    issue_summary = None
+    warnings = None
+    recommendations = None
+
+    res = preprocess_dataset(ds, cfg)
+    if isinstance(res, tuple):
+        ds = res[0]
+        cleaning_report = res[1]
+        quality_report = res[2]
+        row_level_audit = res[3]
+        issue_summary = res[4]
+        warnings = res[5]
+        recommendations = res[6]
+    else:
+        ds = res
 
     # Create missing splits
     if "train" not in ds:
@@ -244,5 +261,13 @@ def _finalize(ds, cfg: DictConfig):
 
     for split, d in ds.items():
         logger.info(f"  {split}: {len(d):,} samples")
+
+    if cleaning_report is not None:
+        ds.cleaning_report = cleaning_report
+        ds.quality_report = quality_report
+        ds.row_level_audit = row_level_audit
+        ds.issue_summary = issue_summary
+        ds.warnings = warnings
+        ds.recommendations = recommendations
 
     return ds

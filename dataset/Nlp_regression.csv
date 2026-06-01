@@ -1,0 +1,1001 @@
+id,text,word_count,avg_word_length,sentence_count,complexity_score,target
+1,The story is engaging and suitable for young readers. Sample 1,77,3.63,9,0.245,-1.884
+2,This passage is easy to read and understand. Sample 2,299,3.93,14,0.032,-2.25
+3,The document contains moderately complex vocabulary. Sample 3,278,6.51,18,0.199,2.199
+4,The research manuscript presents sophisticated theoretical arguments. Sample 4,234,4.6,19,0.278,3.954
+5,The document contains moderately complex vocabulary. Sample 5,236,5.2,5,0.215,3.108
+6,This passage is easy to read and understand. Sample 6,67,5.4,12,0.847,1.83
+7,This passage is easy to read and understand. Sample 7,255,6.18,13,0.079,-0.655
+8,The story is engaging and suitable for young readers. Sample 8,205,6.39,3,0.046,-1.177
+9,The article uses highly technical terminology and advanced concepts. Sample 9,60,7.78,4,0.38,0.627
+10,The article uses highly technical terminology and advanced concepts. Sample 10,103,5.35,7,0.67,2.615
+11,The story is engaging and suitable for young readers. Sample 11,56,6.55,6,0.534,-1.042
+12,The tutorial is beginner friendly and clearly written. Sample 12,214,4.85,18,0.22,-0.406
+13,This passage is easy to read and understand. Sample 13,137,7.61,11,0.401,-2.47
+14,The research manuscript presents sophisticated theoretical arguments. Sample 14,181,4.56,16,0.396,4.316
+15,The tutorial is beginner friendly and clearly written. Sample 15,93,4.82,8,0.745,1.312
+16,The story is engaging and suitable for young readers. Sample 16,239,7.99,13,0.362,4.979
+17,The document contains moderately complex vocabulary. Sample 17,280,5.97,2,0.861,-1.777
+18,The document contains moderately complex vocabulary. Sample 18,236,6.48,13,0.382,4.969
+19,The research manuscript presents sophisticated theoretical arguments. Sample 19,148,8.36,1,0.68,-2.084
+20,The research manuscript presents sophisticated theoretical arguments. Sample 20,156,7.34,11,0.112,0.478
+21,The tutorial is beginner friendly and clearly written. Sample 21,21,8.27,9,0.972,3.096
+22,The research manuscript presents sophisticated theoretical arguments. Sample 22,74,7.85,10,0.842,1.061
+23,The document contains moderately complex vocabulary. Sample 23,98,5.37,6,0.539,3.229
+24,The research manuscript presents sophisticated theoretical arguments. Sample 24,20,6.49,16,0.019,4.433
+25,The article uses highly technical terminology and advanced concepts. Sample 25,142,3.79,19,0.947,-2.315
+26,The tutorial is beginner friendly and clearly written. Sample 26,55,8.39,18,0.766,-1.973
+27,The tutorial is beginner friendly and clearly written. Sample 27,104,4.83,20,0.423,-1.306
+28,The research manuscript presents sophisticated theoretical arguments. Sample 28,122,7.06,13,0.995,2.199
+29,The tutorial is beginner friendly and clearly written. Sample 29,284,5.76,8,0.225,-0.295
+30,The research manuscript presents sophisticated theoretical arguments. Sample 30,137,6.44,1,0.071,2.049
+31,The document contains moderately complex vocabulary. Sample 31,54,8.03,11,0.071,-1.096
+32,The story is engaging and suitable for young readers. Sample 32,268,4.57,5,0.723,4.059
+33,The research manuscript presents sophisticated theoretical arguments. Sample 33,262,4.71,16,0.807,-1.477
+34,This passage is easy to read and understand. Sample 34,240,5.27,14,0.467,2.833
+35,The story is engaging and suitable for young readers. Sample 35,70,3.8,11,0.801,-2.126
+36,The document contains moderately complex vocabulary. Sample 36,117,6.18,5,0.422,-0.772
+37,The document contains moderately complex vocabulary. Sample 37,58,5.72,18,0.098,2.217
+38,The research manuscript presents sophisticated theoretical arguments. Sample 38,27,8.34,8,0.166,0.885
+39,The document contains moderately complex vocabulary. Sample 39,225,8.01,6,0.379,4.882
+40,The article uses highly technical terminology and advanced concepts. Sample 40,252,4.93,18,0.662,0.893
+41,The document contains moderately complex vocabulary. Sample 41,171,4.59,2,0.579,1.338
+42,The story is engaging and suitable for young readers. Sample 42,180,3.79,19,0.477,4.355
+43,The research manuscript presents sophisticated theoretical arguments. Sample 43,100,3.78,17,0.08,-1.513
+44,The research manuscript presents sophisticated theoretical arguments. Sample 44,54,6.88,8,0.404,4.533
+45,The research manuscript presents sophisticated theoretical arguments. Sample 45,146,6.39,2,0.619,0.354
+46,The research manuscript presents sophisticated theoretical arguments. Sample 46,287,5.08,9,0.204,2.73
+47,The document contains moderately complex vocabulary. Sample 47,155,5.48,10,0.457,4.432
+48,This passage is easy to read and understand. Sample 48,24,5.79,19,0.996,-2.414
+49,The document contains moderately complex vocabulary. Sample 49,279,4.83,12,0.881,4.034
+50,The article uses highly technical terminology and advanced concepts. Sample 50,165,4.29,18,0.704,1.893
+51,The story is engaging and suitable for young readers. Sample 51,290,3.54,18,0.299,2.307
+52,The document contains moderately complex vocabulary. Sample 52,155,4.08,4,0.742,-1.756
+53,The article uses highly technical terminology and advanced concepts. Sample 53,127,7.09,7,0.687,3.823
+54,The research manuscript presents sophisticated theoretical arguments. Sample 54,270,4.76,2,0.092,0.389
+55,The article uses highly technical terminology and advanced concepts. Sample 55,42,3.52,5,0.637,-0.904
+56,The story is engaging and suitable for young readers. Sample 56,246,6.26,14,0.561,-2.105
+57,The story is engaging and suitable for young readers. Sample 57,96,6.23,12,0.583,-1.815
+58,The document contains moderately complex vocabulary. Sample 58,41,5.04,2,0.899,-1.319
+59,The document contains moderately complex vocabulary. Sample 59,72,5.27,18,0.884,0.251
+60,The research manuscript presents sophisticated theoretical arguments. Sample 60,99,8.13,8,0.865,4.81
+61,The document contains moderately complex vocabulary. Sample 61,231,3.62,11,0.782,0.294
+62,The story is engaging and suitable for young readers. Sample 62,147,4.83,4,0.383,-2.69
+63,The tutorial is beginner friendly and clearly written. Sample 63,133,4.5,15,0.35,3.564
+64,The document contains moderately complex vocabulary. Sample 64,134,3.62,7,0.398,-0.771
+65,This passage is easy to read and understand. Sample 65,162,5.26,17,0.4,4.849
+66,The research manuscript presents sophisticated theoretical arguments. Sample 66,189,8.2,4,0.877,-0.91
+67,The research manuscript presents sophisticated theoretical arguments. Sample 67,155,3.69,20,0.435,2.828
+68,The article uses highly technical terminology and advanced concepts. Sample 68,243,6.53,17,0.116,4.196
+69,The document contains moderately complex vocabulary. Sample 69,150,3.72,14,0.002,4.405
+70,The research manuscript presents sophisticated theoretical arguments. Sample 70,120,5.32,3,0.949,4.366
+71,The research manuscript presents sophisticated theoretical arguments. Sample 71,180,6.82,4,0.72,-0.597
+72,The article uses highly technical terminology and advanced concepts. Sample 72,229,5.13,10,0.554,-1.465
+73,The story is engaging and suitable for young readers. Sample 73,214,6.89,6,0.616,-0.592
+74,The research manuscript presents sophisticated theoretical arguments. Sample 74,20,5.02,7,0.43,1.64
+75,The story is engaging and suitable for young readers. Sample 75,184,5.82,15,0.676,1.089
+76,The story is engaging and suitable for young readers. Sample 76,106,6.79,10,0.515,2.064
+77,The article uses highly technical terminology and advanced concepts. Sample 77,67,7.59,8,0.673,-1.203
+78,The document contains moderately complex vocabulary. Sample 78,95,3.62,8,0.984,1.89
+79,This passage is easy to read and understand. Sample 79,253,5.57,19,0.194,2.571
+80,The tutorial is beginner friendly and clearly written. Sample 80,224,4.72,1,0.893,3.884
+81,This passage is easy to read and understand. Sample 81,237,4.59,17,0.465,1.459
+82,This passage is easy to read and understand. Sample 82,253,4.17,15,0.668,4.903
+83,The research manuscript presents sophisticated theoretical arguments. Sample 83,182,8.25,15,0.613,2.754
+84,The research manuscript presents sophisticated theoretical arguments. Sample 84,238,7.65,18,0.446,-1.727
+85,The tutorial is beginner friendly and clearly written. Sample 85,250,4.8,8,0.84,-0.782
+86,The research manuscript presents sophisticated theoretical arguments. Sample 86,268,6.63,9,0.44,2.708
+87,The document contains moderately complex vocabulary. Sample 87,159,5.18,18,0.081,-1.793
+88,The tutorial is beginner friendly and clearly written. Sample 88,98,7.03,3,0.415,-0.353
+89,The tutorial is beginner friendly and clearly written. Sample 89,232,3.81,14,0.389,3.158
+90,The story is engaging and suitable for young readers. Sample 90,30,7.78,19,0.38,-2.953
+91,The article uses highly technical terminology and advanced concepts. Sample 91,172,7.27,14,0.538,2.877
+92,The research manuscript presents sophisticated theoretical arguments. Sample 92,132,5.94,9,0.436,-2.768
+93,The article uses highly technical terminology and advanced concepts. Sample 93,227,7.12,15,0.92,4.846
+94,The research manuscript presents sophisticated theoretical arguments. Sample 94,33,8.03,19,0.564,-2.783
+95,The story is engaging and suitable for young readers. Sample 95,239,4.18,15,0.182,-0.919
+96,The article uses highly technical terminology and advanced concepts. Sample 96,128,5.77,11,0.761,0.033
+97,The tutorial is beginner friendly and clearly written. Sample 97,149,7.67,16,0.019,1.315
+98,The article uses highly technical terminology and advanced concepts. Sample 98,134,6.75,2,0.754,4.597
+99,The document contains moderately complex vocabulary. Sample 99,30,6.61,8,0.126,2.356
+100,The research manuscript presents sophisticated theoretical arguments. Sample 100,131,5.83,9,0.767,-1.658
+101,The research manuscript presents sophisticated theoretical arguments. Sample 101,78,7.39,6,0.965,-2.135
+102,This passage is easy to read and understand. Sample 102,179,6.38,13,0.397,2.72
+103,This passage is easy to read and understand. Sample 103,144,4.01,10,0.85,1.803
+104,This passage is easy to read and understand. Sample 104,41,5.24,14,0.662,-2.448
+105,The story is engaging and suitable for young readers. Sample 105,194,3.56,14,0.822,-2.156
+106,The article uses highly technical terminology and advanced concepts. Sample 106,255,7.04,14,0.176,1.174
+107,The story is engaging and suitable for young readers. Sample 107,158,6.58,18,0.775,0.719
+108,The story is engaging and suitable for young readers. Sample 108,157,5.11,8,0.831,-2.307
+109,The tutorial is beginner friendly and clearly written. Sample 109,144,7.25,19,0.61,0.032
+110,This passage is easy to read and understand. Sample 110,273,7.75,6,0.488,-0.161
+111,The article uses highly technical terminology and advanced concepts. Sample 111,194,4.9,20,0.701,-0.79
+112,This passage is easy to read and understand. Sample 112,284,8.24,3,0.241,0.251
+113,The research manuscript presents sophisticated theoretical arguments. Sample 113,143,6.95,16,0.448,-2.862
+114,The article uses highly technical terminology and advanced concepts. Sample 114,133,5.52,8,0.306,1.652
+115,The tutorial is beginner friendly and clearly written. Sample 115,291,5.22,18,0.331,2.623
+116,The article uses highly technical terminology and advanced concepts. Sample 116,176,4.76,4,0.721,-0.476
+117,The story is engaging and suitable for young readers. Sample 117,294,8.25,6,0.192,2.909
+118,The article uses highly technical terminology and advanced concepts. Sample 118,288,6.48,4,0.833,-0.63
+119,The article uses highly technical terminology and advanced concepts. Sample 119,111,5.01,18,0.127,-2.636
+120,This passage is easy to read and understand. Sample 120,169,6.99,5,0.638,3.022
+121,This passage is easy to read and understand. Sample 121,26,6.37,16,0.479,-0.274
+122,This passage is easy to read and understand. Sample 122,149,8.21,16,0.114,-2.477
+123,The tutorial is beginner friendly and clearly written. Sample 123,57,6.39,2,0.152,3.489
+124,The article uses highly technical terminology and advanced concepts. Sample 124,63,8.47,4,0.558,0.329
+125,The research manuscript presents sophisticated theoretical arguments. Sample 125,135,7.38,13,0.451,0.542
+126,The research manuscript presents sophisticated theoretical arguments. Sample 126,239,5.03,20,0.06,4.681
+127,This passage is easy to read and understand. Sample 127,126,6.63,9,0.66,-1.744
+128,The document contains moderately complex vocabulary. Sample 128,58,4.28,14,0.451,1.75
+129,The article uses highly technical terminology and advanced concepts. Sample 129,36,4.66,10,0.703,0.632
+130,The story is engaging and suitable for young readers. Sample 130,139,8.12,19,0.661,4.469
+131,The tutorial is beginner friendly and clearly written. Sample 131,78,6.22,5,0.908,3.613
+132,This passage is easy to read and understand. Sample 132,50,4.33,10,0.595,3.594
+133,The article uses highly technical terminology and advanced concepts. Sample 133,244,4.12,10,0.7,4.541
+134,The research manuscript presents sophisticated theoretical arguments. Sample 134,296,5.97,3,0.598,4.115
+135,The story is engaging and suitable for young readers. Sample 135,185,6.52,1,0.091,4.695
+136,The research manuscript presents sophisticated theoretical arguments. Sample 136,30,8.5,9,0.576,3.105
+137,The document contains moderately complex vocabulary. Sample 137,260,6.09,15,0.916,-1.548
+138,The research manuscript presents sophisticated theoretical arguments. Sample 138,243,6.67,16,0.969,0.76
+139,The tutorial is beginner friendly and clearly written. Sample 139,190,5.11,4,0.858,-0.362
+140,The story is engaging and suitable for young readers. Sample 140,273,4.94,13,0.814,1.401
+141,The tutorial is beginner friendly and clearly written. Sample 141,65,5.07,11,0.116,3.18
+142,The research manuscript presents sophisticated theoretical arguments. Sample 142,20,6.79,18,0.462,-2.566
+143,The research manuscript presents sophisticated theoretical arguments. Sample 143,205,6.61,16,0.625,3.08
+144,The document contains moderately complex vocabulary. Sample 144,156,6.25,10,0.438,2.586
+145,This passage is easy to read and understand. Sample 145,34,8.37,20,0.799,2.678
+146,The article uses highly technical terminology and advanced concepts. Sample 146,27,6.26,3,0.225,3.731
+147,This passage is easy to read and understand. Sample 147,256,8.24,5,0.498,2.733
+148,The research manuscript presents sophisticated theoretical arguments. Sample 148,159,5.58,16,0.98,-1.05
+149,The research manuscript presents sophisticated theoretical arguments. Sample 149,94,5.42,20,0.508,4.035
+150,This passage is easy to read and understand. Sample 150,161,7.36,14,0.34,3.302
+151,The article uses highly technical terminology and advanced concepts. Sample 151,21,4.91,10,0.837,1.639
+152,The story is engaging and suitable for young readers. Sample 152,270,7.83,15,0.539,-0.239
+153,The research manuscript presents sophisticated theoretical arguments. Sample 153,298,5.39,11,0.87,4.846
+154,The document contains moderately complex vocabulary. Sample 154,216,4.67,14,0.044,2.958
+155,The story is engaging and suitable for young readers. Sample 155,215,5.43,5,0.495,-2.704
+156,The research manuscript presents sophisticated theoretical arguments. Sample 156,189,7.85,15,0.1,4.284
+157,This passage is easy to read and understand. Sample 157,93,5.55,5,0.075,3.252
+158,The article uses highly technical terminology and advanced concepts. Sample 158,193,6.62,13,0.65,3.814
+159,The story is engaging and suitable for young readers. Sample 159,293,5.4,11,0.627,4.1
+160,The tutorial is beginner friendly and clearly written. Sample 160,297,3.68,3,0.235,2.475
+161,The article uses highly technical terminology and advanced concepts. Sample 161,136,7.23,14,0.978,3.083
+162,The story is engaging and suitable for young readers. Sample 162,71,5.72,10,0.903,-2.632
+163,This passage is easy to read and understand. Sample 163,170,5.29,14,0.146,1.249
+164,The research manuscript presents sophisticated theoretical arguments. Sample 164,112,4.35,3,0.609,0.06
+165,The story is engaging and suitable for young readers. Sample 165,143,5.99,19,0.143,0.689
+166,The article uses highly technical terminology and advanced concepts. Sample 166,255,4.78,1,0.899,0.722
+167,The article uses highly technical terminology and advanced concepts. Sample 167,299,4.29,15,0.945,4.901
+168,The article uses highly technical terminology and advanced concepts. Sample 168,237,6.95,15,0.845,-1.406
+169,The tutorial is beginner friendly and clearly written. Sample 169,267,4.03,13,0.572,1.598
+170,The story is engaging and suitable for young readers. Sample 170,171,3.61,13,0.274,1.527
+171,The story is engaging and suitable for young readers. Sample 171,45,8.05,16,0.833,4.223
+172,The document contains moderately complex vocabulary. Sample 172,200,4.6,7,0.621,2.422
+173,The story is engaging and suitable for young readers. Sample 173,90,6.64,2,0.309,0.527
+174,The research manuscript presents sophisticated theoretical arguments. Sample 174,206,7.16,3,0.91,-0.386
+175,The tutorial is beginner friendly and clearly written. Sample 175,109,4.5,18,0.876,-0.073
+176,The research manuscript presents sophisticated theoretical arguments. Sample 176,159,7.65,9,0.914,4.554
+177,The article uses highly technical terminology and advanced concepts. Sample 177,193,7.52,15,0.963,-1.874
+178,The document contains moderately complex vocabulary. Sample 178,223,8.34,18,0.366,3.325
+179,This passage is easy to read and understand. Sample 179,155,6.18,15,0.369,2.992
+180,The article uses highly technical terminology and advanced concepts. Sample 180,215,7.61,12,0.108,-1.129
+181,This passage is easy to read and understand. Sample 181,187,8.08,8,0.648,2.083
+182,The tutorial is beginner friendly and clearly written. Sample 182,174,6.75,4,0.14,4.57
+183,The article uses highly technical terminology and advanced concepts. Sample 183,272,4.08,8,0.887,-1.915
+184,The tutorial is beginner friendly and clearly written. Sample 184,209,6.85,18,0.419,2.938
+185,The document contains moderately complex vocabulary. Sample 185,232,6.77,16,0.616,4.512
+186,The article uses highly technical terminology and advanced concepts. Sample 186,36,6.95,7,0.443,4.604
+187,The article uses highly technical terminology and advanced concepts. Sample 187,70,8.4,12,0.544,4.823
+188,The article uses highly technical terminology and advanced concepts. Sample 188,51,5.49,7,0.968,4.592
+189,The tutorial is beginner friendly and clearly written. Sample 189,66,6.81,20,0.971,-2.595
+190,The article uses highly technical terminology and advanced concepts. Sample 190,144,8.44,19,0.205,3.639
+191,The research manuscript presents sophisticated theoretical arguments. Sample 191,126,6.43,8,0.329,-1.82
+192,The research manuscript presents sophisticated theoretical arguments. Sample 192,21,4.89,5,0.988,1.322
+193,The document contains moderately complex vocabulary. Sample 193,76,6.81,1,0.132,-0.134
+194,The document contains moderately complex vocabulary. Sample 194,185,3.58,9,0.052,2.934
+195,The research manuscript presents sophisticated theoretical arguments. Sample 195,78,7.23,16,0.448,-0.104
+196,The research manuscript presents sophisticated theoretical arguments. Sample 196,75,5.76,8,0.945,-2.653
+197,The story is engaging and suitable for young readers. Sample 197,286,5.01,1,0.061,0.832
+198,The tutorial is beginner friendly and clearly written. Sample 198,238,6.93,16,0.712,0.548
+199,This passage is easy to read and understand. Sample 199,184,6.54,3,0.126,1.995
+200,The research manuscript presents sophisticated theoretical arguments. Sample 200,300,7.06,13,0.995,1.244
+201,The tutorial is beginner friendly and clearly written. Sample 201,278,6.53,4,0.793,-2.085
+202,The story is engaging and suitable for young readers. Sample 202,130,5.65,8,0.414,3.619
+203,The tutorial is beginner friendly and clearly written. Sample 203,232,7.15,11,0.427,2.321
+204,The article uses highly technical terminology and advanced concepts. Sample 204,98,6.93,16,0.067,3.654
+205,This passage is easy to read and understand. Sample 205,241,3.98,12,0.812,1.451
+206,The research manuscript presents sophisticated theoretical arguments. Sample 206,188,6.85,14,0.354,2.323
+207,The tutorial is beginner friendly and clearly written. Sample 207,46,8.34,20,0.312,-2.171
+208,The research manuscript presents sophisticated theoretical arguments. Sample 208,128,4.27,16,0.224,-2.134
+209,The research manuscript presents sophisticated theoretical arguments. Sample 209,208,4.07,9,0.574,3.458
+210,The research manuscript presents sophisticated theoretical arguments. Sample 210,33,6.54,9,0.029,-0.814
+211,The article uses highly technical terminology and advanced concepts. Sample 211,193,5.26,6,0.87,1.531
+212,The tutorial is beginner friendly and clearly written. Sample 212,55,4.21,1,0.092,1.244
+213,The tutorial is beginner friendly and clearly written. Sample 213,234,5.77,6,0.37,2.773
+214,The research manuscript presents sophisticated theoretical arguments. Sample 214,63,7.92,5,0.157,1.943
+215,The story is engaging and suitable for young readers. Sample 215,61,4.86,14,0.486,0.536
+216,The article uses highly technical terminology and advanced concepts. Sample 216,130,7.27,4,0.345,-2.113
+217,The story is engaging and suitable for young readers. Sample 217,269,6.13,10,0.045,0.162
+218,The research manuscript presents sophisticated theoretical arguments. Sample 218,48,3.54,10,0.945,3.139
+219,The article uses highly technical terminology and advanced concepts. Sample 219,168,5.14,1,0.497,0.445
+220,The document contains moderately complex vocabulary. Sample 220,214,6.16,8,0.5,3.667
+221,The article uses highly technical terminology and advanced concepts. Sample 221,56,5.49,2,0.436,0.678
+222,This passage is easy to read and understand. Sample 222,180,6.38,19,0.404,2.121
+223,The article uses highly technical terminology and advanced concepts. Sample 223,78,5.53,11,0.172,4.581
+224,The tutorial is beginner friendly and clearly written. Sample 224,205,3.94,4,0.243,1.711
+225,The research manuscript presents sophisticated theoretical arguments. Sample 225,60,5.48,10,0.746,-1.227
+226,The document contains moderately complex vocabulary. Sample 226,59,6.05,4,0.531,-1.449
+227,The article uses highly technical terminology and advanced concepts. Sample 227,199,7.14,5,0.236,-1.828
+228,The document contains moderately complex vocabulary. Sample 228,108,6.51,3,0.177,3.183
+229,The tutorial is beginner friendly and clearly written. Sample 229,257,7.27,19,0.449,4.393
+230,The research manuscript presents sophisticated theoretical arguments. Sample 230,185,7.82,11,0.151,-2.454
+231,The tutorial is beginner friendly and clearly written. Sample 231,175,7.48,19,0.056,1.059
+232,The article uses highly technical terminology and advanced concepts. Sample 232,256,5.76,2,0.369,-0.703
+233,The story is engaging and suitable for young readers. Sample 233,66,6.58,17,0.384,1.643
+234,The story is engaging and suitable for young readers. Sample 234,41,5.75,19,0.652,-0.428
+235,The tutorial is beginner friendly and clearly written. Sample 235,276,4.25,2,0.451,3.488
+236,The article uses highly technical terminology and advanced concepts. Sample 236,63,6.02,6,0.039,2.661
+237,The tutorial is beginner friendly and clearly written. Sample 237,288,6.11,6,0.364,4.343
+238,The tutorial is beginner friendly and clearly written. Sample 238,229,7.37,20,0.052,2.047
+239,The article uses highly technical terminology and advanced concepts. Sample 239,53,5.15,18,0.678,-0.727
+240,The story is engaging and suitable for young readers. Sample 240,96,5.17,19,0.664,4.334
+241,The article uses highly technical terminology and advanced concepts. Sample 241,220,4.14,3,0.31,0.013
+242,The article uses highly technical terminology and advanced concepts. Sample 242,85,6.85,17,0.093,2.364
+243,The research manuscript presents sophisticated theoretical arguments. Sample 243,205,3.59,10,0.18,-1.286
+244,The tutorial is beginner friendly and clearly written. Sample 244,118,4.63,5,0.155,-0.634
+245,This passage is easy to read and understand. Sample 245,279,7.35,17,0.038,-0.306
+246,The research manuscript presents sophisticated theoretical arguments. Sample 246,87,6.49,5,0.162,3.651
+247,The research manuscript presents sophisticated theoretical arguments. Sample 247,104,7.11,2,0.411,2.411
+248,The document contains moderately complex vocabulary. Sample 248,247,6.55,15,0.234,-1.087
+249,The tutorial is beginner friendly and clearly written. Sample 249,119,5.34,19,0.984,0.693
+250,The article uses highly technical terminology and advanced concepts. Sample 250,215,6.01,14,0.966,3.535
+251,The research manuscript presents sophisticated theoretical arguments. Sample 251,90,7.87,2,0.641,3.993
+252,The research manuscript presents sophisticated theoretical arguments. Sample 252,72,7.06,17,0.851,-0.719
+253,The document contains moderately complex vocabulary. Sample 253,159,5.75,17,0.147,0.5
+254,The document contains moderately complex vocabulary. Sample 254,250,7.92,1,0.415,0.172
+255,The article uses highly technical terminology and advanced concepts. Sample 255,140,5.43,3,0.375,-2.774
+256,This passage is easy to read and understand. Sample 256,191,7.46,5,0.038,4.339
+257,The tutorial is beginner friendly and clearly written. Sample 257,91,7.29,16,0.449,-2.958
+258,This passage is easy to read and understand. Sample 258,29,4.78,5,0.549,2.818
+259,The research manuscript presents sophisticated theoretical arguments. Sample 259,236,4.06,10,0.238,-2.025
+260,The document contains moderately complex vocabulary. Sample 260,234,6.69,20,0.457,-2.113
+261,The tutorial is beginner friendly and clearly written. Sample 261,294,3.58,17,0.575,2.748
+262,The article uses highly technical terminology and advanced concepts. Sample 262,239,3.51,12,0.241,0.333
+263,The story is engaging and suitable for young readers. Sample 263,63,6.12,12,0.068,1.208
+264,The research manuscript presents sophisticated theoretical arguments. Sample 264,279,6.27,13,0.873,-2.652
+265,The tutorial is beginner friendly and clearly written. Sample 265,211,4.77,1,0.357,-2.46
+266,The document contains moderately complex vocabulary. Sample 266,73,7.36,11,0.133,-0.182
+267,The article uses highly technical terminology and advanced concepts. Sample 267,109,7.65,15,0.981,0.828
+268,The document contains moderately complex vocabulary. Sample 268,89,3.82,15,0.037,-1.387
+269,The document contains moderately complex vocabulary. Sample 269,41,5.08,10,0.515,4.913
+270,The research manuscript presents sophisticated theoretical arguments. Sample 270,262,4.77,7,0.286,3.897
+271,This passage is easy to read and understand. Sample 271,189,4.87,12,0.437,0.2
+272,The tutorial is beginner friendly and clearly written. Sample 272,217,5.2,6,0.496,0.98
+273,The research manuscript presents sophisticated theoretical arguments. Sample 273,156,7.51,14,0.079,1.82
+274,The document contains moderately complex vocabulary. Sample 274,299,4.97,4,0.08,2.287
+275,The article uses highly technical terminology and advanced concepts. Sample 275,248,6.51,14,0.167,0.551
+276,The tutorial is beginner friendly and clearly written. Sample 276,41,7.13,12,0.615,0.48
+277,The story is engaging and suitable for young readers. Sample 277,49,3.88,13,0.363,3.409
+278,The story is engaging and suitable for young readers. Sample 278,101,8.26,5,0.849,2.425
+279,The tutorial is beginner friendly and clearly written. Sample 279,37,4.13,8,0.779,-0.069
+280,The tutorial is beginner friendly and clearly written. Sample 280,36,6.53,15,0.949,-0.024
+281,This passage is easy to read and understand. Sample 281,90,6.15,13,0.314,-0.77
+282,This passage is easy to read and understand. Sample 282,33,7.18,16,0.518,4.308
+283,This passage is easy to read and understand. Sample 283,154,7.37,15,0.215,1.895
+284,The story is engaging and suitable for young readers. Sample 284,271,4.5,5,0.853,0.616
+285,The story is engaging and suitable for young readers. Sample 285,247,8.49,11,0.668,2.676
+286,The research manuscript presents sophisticated theoretical arguments. Sample 286,297,4.95,10,0.851,2.694
+287,The story is engaging and suitable for young readers. Sample 287,109,7.47,17,0.224,4.881
+288,The document contains moderately complex vocabulary. Sample 288,141,7.45,1,0.361,1.578
+289,The tutorial is beginner friendly and clearly written. Sample 289,86,6.56,3,0.066,0.185
+290,The story is engaging and suitable for young readers. Sample 290,265,6.13,14,0.823,-2.41
+291,The article uses highly technical terminology and advanced concepts. Sample 291,57,5.75,17,0.345,4.024
+292,The research manuscript presents sophisticated theoretical arguments. Sample 292,113,7.34,5,0.433,4.286
+293,This passage is easy to read and understand. Sample 293,83,6.09,10,0.165,-0.419
+294,The story is engaging and suitable for young readers. Sample 294,135,5.23,17,0.895,3.767
+295,The article uses highly technical terminology and advanced concepts. Sample 295,120,6.68,18,0.274,2.0
+296,The research manuscript presents sophisticated theoretical arguments. Sample 296,293,3.97,6,0.592,1.645
+297,The document contains moderately complex vocabulary. Sample 297,192,7.71,19,0.041,3.91
+298,This passage is easy to read and understand. Sample 298,43,8.24,19,0.265,-1.314
+299,The research manuscript presents sophisticated theoretical arguments. Sample 299,233,6.59,1,0.498,2.017
+300,The article uses highly technical terminology and advanced concepts. Sample 300,174,5.91,13,0.297,-2.416
+301,This passage is easy to read and understand. Sample 301,100,5.7,16,0.464,-0.278
+302,The document contains moderately complex vocabulary. Sample 302,180,7.81,11,0.734,3.886
+303,The tutorial is beginner friendly and clearly written. Sample 303,86,7.3,17,0.562,-0.447
+304,The tutorial is beginner friendly and clearly written. Sample 304,82,4.84,8,0.141,-2.595
+305,The tutorial is beginner friendly and clearly written. Sample 305,234,4.74,6,0.813,4.47
+306,The story is engaging and suitable for young readers. Sample 306,180,4.45,6,0.498,1.118
+307,The tutorial is beginner friendly and clearly written. Sample 307,177,5.99,3,0.945,1.044
+308,The document contains moderately complex vocabulary. Sample 308,130,6.42,2,0.051,0.959
+309,The story is engaging and suitable for young readers. Sample 309,260,4.93,1,0.847,0.447
+310,The article uses highly technical terminology and advanced concepts. Sample 310,207,7.32,12,0.045,-2.591
+311,The research manuscript presents sophisticated theoretical arguments. Sample 311,119,5.31,10,0.074,1.034
+312,The research manuscript presents sophisticated theoretical arguments. Sample 312,163,7.63,20,0.68,-2.05
+313,This passage is easy to read and understand. Sample 313,221,5.37,11,0.558,-0.075
+314,The document contains moderately complex vocabulary. Sample 314,121,6.51,13,0.5,-2.638
+315,The document contains moderately complex vocabulary. Sample 315,190,7.52,17,0.457,1.85
+316,The research manuscript presents sophisticated theoretical arguments. Sample 316,91,5.14,20,0.319,0.144
+317,The research manuscript presents sophisticated theoretical arguments. Sample 317,173,6.47,17,0.828,1.259
+318,The story is engaging and suitable for young readers. Sample 318,173,5.87,1,0.368,2.39
+319,The tutorial is beginner friendly and clearly written. Sample 319,177,7.48,1,0.597,-0.876
+320,The story is engaging and suitable for young readers. Sample 320,136,7.11,19,0.48,1.194
+321,The story is engaging and suitable for young readers. Sample 321,214,4.24,8,0.032,4.586
+322,This passage is easy to read and understand. Sample 322,117,3.59,11,0.419,0.304
+323,The document contains moderately complex vocabulary. Sample 323,230,6.01,20,0.921,3.983
+324,The story is engaging and suitable for young readers. Sample 324,51,7.03,17,0.207,-0.4
+325,The story is engaging and suitable for young readers. Sample 325,264,6.13,11,0.957,0.677
+326,The research manuscript presents sophisticated theoretical arguments. Sample 326,195,6.23,9,0.61,-1.462
+327,The document contains moderately complex vocabulary. Sample 327,162,6.29,8,0.941,4.858
+328,The article uses highly technical terminology and advanced concepts. Sample 328,126,6.95,16,0.317,-0.21
+329,The story is engaging and suitable for young readers. Sample 329,160,4.94,19,0.677,0.038
+330,The tutorial is beginner friendly and clearly written. Sample 330,196,8.27,5,0.29,-0.699
+331,The story is engaging and suitable for young readers. Sample 331,60,5.23,15,0.656,2.979
+332,The document contains moderately complex vocabulary. Sample 332,123,7.64,9,0.933,2.569
+333,The document contains moderately complex vocabulary. Sample 333,75,6.58,19,0.239,-2.594
+334,The research manuscript presents sophisticated theoretical arguments. Sample 334,135,6.69,2,0.1,-0.358
+335,The tutorial is beginner friendly and clearly written. Sample 335,71,6.91,5,0.005,1.403
+336,The document contains moderately complex vocabulary. Sample 336,228,6.76,16,0.477,-1.404
+337,The article uses highly technical terminology and advanced concepts. Sample 337,184,4.93,2,0.908,-2.284
+338,The research manuscript presents sophisticated theoretical arguments. Sample 338,138,6.18,2,0.913,-1.599
+339,The document contains moderately complex vocabulary. Sample 339,38,8.49,13,0.788,-1.51
+340,The story is engaging and suitable for young readers. Sample 340,168,7.88,1,0.298,1.822
+341,The article uses highly technical terminology and advanced concepts. Sample 341,165,5.77,18,0.524,4.114
+342,The document contains moderately complex vocabulary. Sample 342,278,5.84,7,0.809,-0.355
+343,The story is engaging and suitable for young readers. Sample 343,254,6.74,6,0.014,-0.303
+344,The article uses highly technical terminology and advanced concepts. Sample 344,118,4.38,13,0.827,1.122
+345,This passage is easy to read and understand. Sample 345,225,6.85,6,0.982,0.82
+346,The document contains moderately complex vocabulary. Sample 346,23,4.8,8,0.447,-0.864
+347,The article uses highly technical terminology and advanced concepts. Sample 347,174,6.41,19,0.011,2.229
+348,The story is engaging and suitable for young readers. Sample 348,140,3.81,4,0.465,-1.722
+349,The story is engaging and suitable for young readers. Sample 349,277,8.12,10,0.69,2.11
+350,The article uses highly technical terminology and advanced concepts. Sample 350,208,6.57,8,0.957,0.825
+351,The tutorial is beginner friendly and clearly written. Sample 351,211,5.58,18,0.913,3.059
+352,The story is engaging and suitable for young readers. Sample 352,131,7.31,20,0.873,-2.345
+353,The tutorial is beginner friendly and clearly written. Sample 353,290,7.02,3,0.917,-2.102
+354,The research manuscript presents sophisticated theoretical arguments. Sample 354,278,4.51,18,0.15,-0.375
+355,The research manuscript presents sophisticated theoretical arguments. Sample 355,246,4.08,7,0.717,0.911
+356,The research manuscript presents sophisticated theoretical arguments. Sample 356,248,7.54,15,0.132,0.323
+357,The research manuscript presents sophisticated theoretical arguments. Sample 357,49,6.29,10,0.723,0.168
+358,This passage is easy to read and understand. Sample 358,131,6.39,2,0.424,2.603
+359,The research manuscript presents sophisticated theoretical arguments. Sample 359,50,8.17,3,0.986,0.777
+360,The article uses highly technical terminology and advanced concepts. Sample 360,229,4.4,5,0.766,4.827
+361,The story is engaging and suitable for young readers. Sample 361,235,5.37,13,0.449,4.337
+362,The tutorial is beginner friendly and clearly written. Sample 362,212,3.9,18,0.133,3.882
+363,This passage is easy to read and understand. Sample 363,111,8.46,13,0.529,2.823
+364,The document contains moderately complex vocabulary. Sample 364,21,7.28,10,0.463,2.753
+365,The tutorial is beginner friendly and clearly written. Sample 365,292,5.4,8,0.248,-0.231
+366,The article uses highly technical terminology and advanced concepts. Sample 366,116,8.19,4,0.032,2.282
+367,The research manuscript presents sophisticated theoretical arguments. Sample 367,28,4.7,3,0.101,-2.731
+368,The research manuscript presents sophisticated theoretical arguments. Sample 368,44,4.72,2,0.402,-1.125
+369,The document contains moderately complex vocabulary. Sample 369,48,4.2,10,0.234,4.331
+370,The research manuscript presents sophisticated theoretical arguments. Sample 370,183,6.39,11,0.237,4.01
+371,The story is engaging and suitable for young readers. Sample 371,286,4.61,10,0.275,1.454
+372,The research manuscript presents sophisticated theoretical arguments. Sample 372,109,6.63,14,0.556,-2.625
+373,The article uses highly technical terminology and advanced concepts. Sample 373,215,7.43,11,0.696,0.266
+374,The article uses highly technical terminology and advanced concepts. Sample 374,212,4.42,18,0.474,3.795
+375,The article uses highly technical terminology and advanced concepts. Sample 375,93,7.53,2,0.562,4.742
+376,The research manuscript presents sophisticated theoretical arguments. Sample 376,291,4.17,8,0.255,-0.358
+377,This passage is easy to read and understand. Sample 377,250,7.74,3,0.536,3.635
+378,This passage is easy to read and understand. Sample 378,157,5.39,20,0.603,3.989
+379,The document contains moderately complex vocabulary. Sample 379,131,5.9,11,0.303,4.272
+380,The document contains moderately complex vocabulary. Sample 380,117,8.31,4,0.747,3.035
+381,The document contains moderately complex vocabulary. Sample 381,124,5.48,8,0.552,3.204
+382,The tutorial is beginner friendly and clearly written. Sample 382,258,6.17,12,0.308,-0.123
+383,The tutorial is beginner friendly and clearly written. Sample 383,258,3.99,16,0.762,-0.438
+384,The document contains moderately complex vocabulary. Sample 384,209,5.06,2,0.563,-1.23
+385,The document contains moderately complex vocabulary. Sample 385,28,4.8,19,0.579,0.341
+386,The document contains moderately complex vocabulary. Sample 386,120,5.15,13,0.57,-1.034
+387,The research manuscript presents sophisticated theoretical arguments. Sample 387,192,4.79,16,0.967,2.134
+388,The tutorial is beginner friendly and clearly written. Sample 388,255,4.34,12,0.169,2.763
+389,The tutorial is beginner friendly and clearly written. Sample 389,114,8.08,18,0.99,4.658
+390,The research manuscript presents sophisticated theoretical arguments. Sample 390,37,7.7,3,0.945,2.346
+391,This passage is easy to read and understand. Sample 391,231,4.19,8,0.068,-1.792
+392,The document contains moderately complex vocabulary. Sample 392,278,5.78,2,0.618,2.334
+393,The research manuscript presents sophisticated theoretical arguments. Sample 393,267,6.8,1,0.007,1.413
+394,This passage is easy to read and understand. Sample 394,28,6.15,9,0.536,-0.706
+395,The research manuscript presents sophisticated theoretical arguments. Sample 395,240,7.53,6,0.107,-2.229
+396,The document contains moderately complex vocabulary. Sample 396,143,4.46,17,0.252,-0.164
+397,The tutorial is beginner friendly and clearly written. Sample 397,60,5.37,13,0.459,-1.054
+398,The story is engaging and suitable for young readers. Sample 398,135,5.0,3,0.654,3.866
+399,This passage is easy to read and understand. Sample 399,67,5.53,13,0.553,-2.551
+400,This passage is easy to read and understand. Sample 400,107,3.91,14,0.645,-0.35
+401,This passage is easy to read and understand. Sample 401,290,8.1,8,0.211,3.945
+402,The research manuscript presents sophisticated theoretical arguments. Sample 402,263,4.86,3,0.684,-0.757
+403,The research manuscript presents sophisticated theoretical arguments. Sample 403,36,4.4,11,0.016,-1.343
+404,The document contains moderately complex vocabulary. Sample 404,223,8.14,10,0.162,-1.076
+405,The tutorial is beginner friendly and clearly written. Sample 405,296,5.16,5,0.79,2.514
+406,This passage is easy to read and understand. Sample 406,276,7.23,12,0.054,0.497
+407,This passage is easy to read and understand. Sample 407,194,6.53,20,0.955,0.174
+408,The article uses highly technical terminology and advanced concepts. Sample 408,35,6.67,15,0.491,-0.154
+409,The tutorial is beginner friendly and clearly written. Sample 409,241,4.43,19,0.661,-2.314
+410,The research manuscript presents sophisticated theoretical arguments. Sample 410,171,7.49,3,0.082,-1.766
+411,The story is engaging and suitable for young readers. Sample 411,98,7.2,11,0.361,-2.268
+412,The article uses highly technical terminology and advanced concepts. Sample 412,247,5.3,9,0.102,-2.302
+413,The tutorial is beginner friendly and clearly written. Sample 413,249,6.28,17,0.408,-2.79
+414,The article uses highly technical terminology and advanced concepts. Sample 414,67,6.48,11,0.864,-2.901
+415,The tutorial is beginner friendly and clearly written. Sample 415,218,7.4,18,0.905,4.825
+416,The research manuscript presents sophisticated theoretical arguments. Sample 416,286,4.35,13,0.17,-0.849
+417,The article uses highly technical terminology and advanced concepts. Sample 417,272,4.23,6,0.435,0.369
+418,The tutorial is beginner friendly and clearly written. Sample 418,59,5.31,8,0.721,0.966
+419,The research manuscript presents sophisticated theoretical arguments. Sample 419,120,5.79,5,0.305,4.591
+420,The article uses highly technical terminology and advanced concepts. Sample 420,214,7.52,11,0.44,0.445
+421,The story is engaging and suitable for young readers. Sample 421,89,5.0,20,0.947,-1.393
+422,The article uses highly technical terminology and advanced concepts. Sample 422,110,8.32,11,0.291,2.56
+423,The tutorial is beginner friendly and clearly written. Sample 423,144,5.13,9,0.816,0.143
+424,This passage is easy to read and understand. Sample 424,122,6.46,18,0.18,3.141
+425,This passage is easy to read and understand. Sample 425,256,8.21,7,0.438,-0.669
+426,The story is engaging and suitable for young readers. Sample 426,55,7.59,14,0.673,-1.887
+427,The article uses highly technical terminology and advanced concepts. Sample 427,143,4.76,5,0.715,3.313
+428,This passage is easy to read and understand. Sample 428,249,8.45,16,0.582,1.275
+429,The story is engaging and suitable for young readers. Sample 429,234,6.22,12,0.702,3.498
+430,The research manuscript presents sophisticated theoretical arguments. Sample 430,63,4.05,8,0.658,-0.16
+431,The story is engaging and suitable for young readers. Sample 431,42,6.32,13,0.967,-0.347
+432,The tutorial is beginner friendly and clearly written. Sample 432,74,3.55,9,0.222,2.975
+433,The research manuscript presents sophisticated theoretical arguments. Sample 433,133,5.73,13,0.463,2.436
+434,The story is engaging and suitable for young readers. Sample 434,276,4.25,1,0.483,-0.637
+435,This passage is easy to read and understand. Sample 435,79,7.66,5,0.348,-0.255
+436,The document contains moderately complex vocabulary. Sample 436,286,5.91,16,0.098,2.776
+437,The tutorial is beginner friendly and clearly written. Sample 437,183,3.84,2,0.81,-2.079
+438,The article uses highly technical terminology and advanced concepts. Sample 438,75,6.89,6,0.93,2.924
+439,The research manuscript presents sophisticated theoretical arguments. Sample 439,109,6.26,11,0.56,4.668
+440,The document contains moderately complex vocabulary. Sample 440,227,6.65,6,0.64,0.457
+441,This passage is easy to read and understand. Sample 441,121,5.75,14,0.389,2.638
+442,The document contains moderately complex vocabulary. Sample 442,162,7.26,3,0.577,3.396
+443,The research manuscript presents sophisticated theoretical arguments. Sample 443,115,5.33,7,0.458,-0.901
+444,The tutorial is beginner friendly and clearly written. Sample 444,290,8.33,11,0.597,1.89
+445,The research manuscript presents sophisticated theoretical arguments. Sample 445,78,5.24,15,0.617,3.51
+446,The story is engaging and suitable for young readers. Sample 446,172,8.09,19,0.085,-1.928
+447,This passage is easy to read and understand. Sample 447,142,5.03,6,0.373,-1.869
+448,The tutorial is beginner friendly and clearly written. Sample 448,234,6.48,19,0.384,-1.514
+449,The story is engaging and suitable for young readers. Sample 449,295,6.97,6,0.555,0.917
+450,The document contains moderately complex vocabulary. Sample 450,115,5.07,15,0.619,3.924
+451,This passage is easy to read and understand. Sample 451,268,4.18,13,0.964,1.044
+452,The tutorial is beginner friendly and clearly written. Sample 452,229,6.92,14,0.71,0.551
+453,The document contains moderately complex vocabulary. Sample 453,62,6.33,8,0.292,-0.801
+454,The research manuscript presents sophisticated theoretical arguments. Sample 454,167,4.34,15,0.566,3.18
+455,The tutorial is beginner friendly and clearly written. Sample 455,281,4.07,4,0.268,1.345
+456,The article uses highly technical terminology and advanced concepts. Sample 456,297,7.61,2,0.76,0.531
+457,The document contains moderately complex vocabulary. Sample 457,237,4.01,8,0.298,4.995
+458,The tutorial is beginner friendly and clearly written. Sample 458,154,5.24,3,0.439,4.952
+459,The document contains moderately complex vocabulary. Sample 459,127,7.55,19,0.689,3.888
+460,The research manuscript presents sophisticated theoretical arguments. Sample 460,239,4.33,5,0.785,3.508
+461,This passage is easy to read and understand. Sample 461,199,6.16,20,0.539,-0.411
+462,The story is engaging and suitable for young readers. Sample 462,169,4.95,9,0.952,1.115
+463,The story is engaging and suitable for young readers. Sample 463,68,4.18,14,0.919,4.94
+464,The story is engaging and suitable for young readers. Sample 464,84,7.01,5,0.25,2.691
+465,The document contains moderately complex vocabulary. Sample 465,221,5.95,19,0.632,2.023
+466,The tutorial is beginner friendly and clearly written. Sample 466,251,3.88,3,0.403,2.998
+467,The story is engaging and suitable for young readers. Sample 467,208,5.77,16,0.327,-2.98
+468,The story is engaging and suitable for young readers. Sample 468,67,7.15,15,0.635,2.578
+469,This passage is easy to read and understand. Sample 469,293,5.49,14,0.825,0.958
+470,The article uses highly technical terminology and advanced concepts. Sample 470,165,5.19,19,0.131,3.819
+471,The article uses highly technical terminology and advanced concepts. Sample 471,44,3.73,15,0.016,4.435
+472,The document contains moderately complex vocabulary. Sample 472,245,5.78,14,0.202,2.509
+473,The document contains moderately complex vocabulary. Sample 473,174,4.29,9,0.093,-0.117
+474,This passage is easy to read and understand. Sample 474,210,6.82,6,0.052,2.005
+475,The story is engaging and suitable for young readers. Sample 475,139,5.65,3,0.704,-2.991
+476,The tutorial is beginner friendly and clearly written. Sample 476,59,4.16,8,0.519,0.561
+477,This passage is easy to read and understand. Sample 477,195,7.59,14,0.694,0.822
+478,The document contains moderately complex vocabulary. Sample 478,216,3.95,4,0.103,-0.06
+479,The article uses highly technical terminology and advanced concepts. Sample 479,90,5.41,5,0.642,2.417
+480,This passage is easy to read and understand. Sample 480,291,6.32,20,0.65,0.521
+481,The story is engaging and suitable for young readers. Sample 481,129,6.64,5,0.92,1.929
+482,The tutorial is beginner friendly and clearly written. Sample 482,131,3.93,4,0.14,-2.015
+483,The story is engaging and suitable for young readers. Sample 483,216,5.26,14,0.315,-1.881
+484,The article uses highly technical terminology and advanced concepts. Sample 484,63,4.74,20,0.6,1.861
+485,The story is engaging and suitable for young readers. Sample 485,33,7.74,10,0.205,1.855
+486,The document contains moderately complex vocabulary. Sample 486,220,4.98,2,0.784,3.35
+487,The document contains moderately complex vocabulary. Sample 487,273,5.43,8,0.5,1.751
+488,The research manuscript presents sophisticated theoretical arguments. Sample 488,26,8.43,11,0.132,3.887
+489,The research manuscript presents sophisticated theoretical arguments. Sample 489,235,5.33,6,0.763,4.636
+490,This passage is easy to read and understand. Sample 490,28,6.44,1,0.262,-2.681
+491,This passage is easy to read and understand. Sample 491,223,6.03,17,0.767,0.389
+492,The tutorial is beginner friendly and clearly written. Sample 492,62,6.7,18,0.616,-0.78
+493,The article uses highly technical terminology and advanced concepts. Sample 493,60,6.06,7,0.974,-1.757
+494,The article uses highly technical terminology and advanced concepts. Sample 494,220,6.43,3,0.31,0.5
+495,The document contains moderately complex vocabulary. Sample 495,49,4.72,14,0.116,1.898
+496,This passage is easy to read and understand. Sample 496,178,6.83,6,0.119,2.663
+497,The story is engaging and suitable for young readers. Sample 497,25,4.32,12,0.523,3.264
+498,The story is engaging and suitable for young readers. Sample 498,152,4.33,5,0.75,3.988
+499,The story is engaging and suitable for young readers. Sample 499,80,7.36,1,0.335,0.435
+500,The research manuscript presents sophisticated theoretical arguments. Sample 500,52,4.81,19,0.628,0.969
+501,The research manuscript presents sophisticated theoretical arguments. Sample 501,204,3.78,19,0.167,-1.742
+502,This passage is easy to read and understand. Sample 502,79,4.64,17,0.003,3.87
+503,This passage is easy to read and understand. Sample 503,145,3.73,12,0.383,-1.799
+504,This passage is easy to read and understand. Sample 504,234,4.62,8,0.416,2.762
+505,The article uses highly technical terminology and advanced concepts. Sample 505,59,6.36,4,0.502,4.216
+506,The document contains moderately complex vocabulary. Sample 506,134,7.52,2,0.954,-2.449
+507,The tutorial is beginner friendly and clearly written. Sample 507,164,7.37,10,0.327,1.425
+508,This passage is easy to read and understand. Sample 508,208,4.5,19,0.785,2.917
+509,The document contains moderately complex vocabulary. Sample 509,257,5.34,16,0.998,3.207
+510,The story is engaging and suitable for young readers. Sample 510,299,7.3,8,0.151,4.459
+511,This passage is easy to read and understand. Sample 511,139,6.21,1,0.951,-2.988
+512,The story is engaging and suitable for young readers. Sample 512,212,7.75,10,0.104,1.239
+513,The document contains moderately complex vocabulary. Sample 513,234,5.96,2,0.973,-1.861
+514,The article uses highly technical terminology and advanced concepts. Sample 514,67,3.72,8,0.897,1.158
+515,The story is engaging and suitable for young readers. Sample 515,210,5.79,3,0.581,1.043
+516,The story is engaging and suitable for young readers. Sample 516,221,3.87,19,0.062,2.3
+517,The document contains moderately complex vocabulary. Sample 517,141,4.96,11,0.926,0.144
+518,The story is engaging and suitable for young readers. Sample 518,187,5.09,9,0.234,4.548
+519,The document contains moderately complex vocabulary. Sample 519,75,4.28,6,0.45,-0.488
+520,This passage is easy to read and understand. Sample 520,294,5.29,7,0.452,0.707
+521,This passage is easy to read and understand. Sample 521,66,4.29,10,0.826,2.575
+522,This passage is easy to read and understand. Sample 522,130,7.68,11,0.148,2.689
+523,The article uses highly technical terminology and advanced concepts. Sample 523,222,6.07,10,0.26,4.925
+524,This passage is easy to read and understand. Sample 524,227,7.77,18,0.748,-1.001
+525,The tutorial is beginner friendly and clearly written. Sample 525,72,7.52,5,0.121,-2.507
+526,The document contains moderately complex vocabulary. Sample 526,86,4.49,13,0.372,2.042
+527,The story is engaging and suitable for young readers. Sample 527,63,6.41,9,0.917,-2.4
+528,This passage is easy to read and understand. Sample 528,121,8.01,15,0.809,-2.264
+529,The article uses highly technical terminology and advanced concepts. Sample 529,82,3.71,15,0.051,4.393
+530,The tutorial is beginner friendly and clearly written. Sample 530,222,5.98,13,0.683,-1.618
+531,The document contains moderately complex vocabulary. Sample 531,115,4.87,15,0.883,-2.723
+532,The research manuscript presents sophisticated theoretical arguments. Sample 532,145,6.74,16,0.412,1.406
+533,This passage is easy to read and understand. Sample 533,64,4.9,5,0.419,2.141
+534,The research manuscript presents sophisticated theoretical arguments. Sample 534,147,6.65,18,0.795,4.915
+535,The story is engaging and suitable for young readers. Sample 535,203,5.9,16,0.344,1.525
+536,The article uses highly technical terminology and advanced concepts. Sample 536,218,4.85,1,0.319,-1.248
+537,The article uses highly technical terminology and advanced concepts. Sample 537,49,7.54,16,0.529,3.135
+538,The document contains moderately complex vocabulary. Sample 538,101,4.0,8,0.267,3.53
+539,The story is engaging and suitable for young readers. Sample 539,48,7.32,8,0.576,4.861
+540,The tutorial is beginner friendly and clearly written. Sample 540,201,8.18,6,0.176,1.74
+541,The story is engaging and suitable for young readers. Sample 541,203,8.07,1,0.703,-0.187
+542,The research manuscript presents sophisticated theoretical arguments. Sample 542,92,6.32,7,0.837,3.483
+543,The tutorial is beginner friendly and clearly written. Sample 543,297,5.05,16,0.038,-2.551
+544,The research manuscript presents sophisticated theoretical arguments. Sample 544,132,3.6,16,0.001,4.343
+545,The document contains moderately complex vocabulary. Sample 545,86,5.2,6,0.919,3.754
+546,The article uses highly technical terminology and advanced concepts. Sample 546,50,3.61,19,0.705,-1.867
+547,This passage is easy to read and understand. Sample 547,289,7.8,3,0.374,4.535
+548,The tutorial is beginner friendly and clearly written. Sample 548,71,5.18,11,0.136,-1.74
+549,The tutorial is beginner friendly and clearly written. Sample 549,269,6.75,6,0.707,1.496
+550,The research manuscript presents sophisticated theoretical arguments. Sample 550,202,4.62,19,0.814,0.027
+551,The story is engaging and suitable for young readers. Sample 551,170,4.14,1,0.949,4.59
+552,The tutorial is beginner friendly and clearly written. Sample 552,36,4.41,11,0.921,4.74
+553,The document contains moderately complex vocabulary. Sample 553,73,8.18,5,0.331,-2.378
+554,The article uses highly technical terminology and advanced concepts. Sample 554,183,4.34,3,0.822,2.36
+555,The story is engaging and suitable for young readers. Sample 555,191,5.73,9,0.21,2.545
+556,The article uses highly technical terminology and advanced concepts. Sample 556,151,7.44,1,0.048,0.506
+557,The tutorial is beginner friendly and clearly written. Sample 557,105,7.92,16,0.882,-0.19
+558,The tutorial is beginner friendly and clearly written. Sample 558,71,7.64,19,0.651,2.497
+559,The document contains moderately complex vocabulary. Sample 559,251,3.87,2,0.295,-0.45
+560,This passage is easy to read and understand. Sample 560,57,5.21,13,0.161,-2.4
+561,This passage is easy to read and understand. Sample 561,193,6.47,20,0.893,2.636
+562,The tutorial is beginner friendly and clearly written. Sample 562,104,6.54,14,0.157,-2.19
+563,The document contains moderately complex vocabulary. Sample 563,117,5.55,18,0.722,2.84
+564,The article uses highly technical terminology and advanced concepts. Sample 564,164,4.99,4,0.05,1.574
+565,The tutorial is beginner friendly and clearly written. Sample 565,98,3.77,1,0.428,-0.644
+566,The story is engaging and suitable for young readers. Sample 566,265,4.5,1,0.207,2.106
+567,This passage is easy to read and understand. Sample 567,262,7.72,10,0.785,0.768
+568,The story is engaging and suitable for young readers. Sample 568,155,3.96,18,0.388,-0.032
+569,The tutorial is beginner friendly and clearly written. Sample 569,209,4.43,2,0.263,0.72
+570,The document contains moderately complex vocabulary. Sample 570,157,6.32,5,0.752,2.34
+571,This passage is easy to read and understand. Sample 571,196,7.54,14,0.971,1.718
+572,The research manuscript presents sophisticated theoretical arguments. Sample 572,51,7.7,17,0.419,1.284
+573,The tutorial is beginner friendly and clearly written. Sample 573,140,5.88,3,0.395,3.832
+574,This passage is easy to read and understand. Sample 574,277,6.36,17,0.8,2.42
+575,The research manuscript presents sophisticated theoretical arguments. Sample 575,95,4.1,15,0.173,4.875
+576,The document contains moderately complex vocabulary. Sample 576,118,4.13,14,0.078,2.465
+577,The document contains moderately complex vocabulary. Sample 577,95,7.67,9,0.32,2.817
+578,This passage is easy to read and understand. Sample 578,64,5.44,13,0.552,3.853
+579,The research manuscript presents sophisticated theoretical arguments. Sample 579,254,8.09,1,0.787,1.984
+580,The research manuscript presents sophisticated theoretical arguments. Sample 580,234,4.06,5,0.148,1.703
+581,This passage is easy to read and understand. Sample 581,74,6.31,4,0.786,3.94
+582,The article uses highly technical terminology and advanced concepts. Sample 582,230,4.82,16,0.572,0.784
+583,The document contains moderately complex vocabulary. Sample 583,161,5.51,20,0.609,2.549
+584,This passage is easy to read and understand. Sample 584,222,7.95,11,0.691,-2.606
+585,The tutorial is beginner friendly and clearly written. Sample 585,157,7.99,1,0.338,3.349
+586,The article uses highly technical terminology and advanced concepts. Sample 586,163,7.71,4,0.972,-1.176
+587,The article uses highly technical terminology and advanced concepts. Sample 587,246,7.37,11,0.269,0.334
+588,The story is engaging and suitable for young readers. Sample 588,65,4.44,7,0.913,0.257
+589,The tutorial is beginner friendly and clearly written. Sample 589,284,7.84,2,0.515,-1.728
+590,The article uses highly technical terminology and advanced concepts. Sample 590,279,5.52,17,0.879,-2.768
+591,The document contains moderately complex vocabulary. Sample 591,122,7.68,8,0.033,-2.596
+592,The article uses highly technical terminology and advanced concepts. Sample 592,121,4.87,15,0.505,2.083
+593,This passage is easy to read and understand. Sample 593,35,4.71,16,0.594,-1.579
+594,The tutorial is beginner friendly and clearly written. Sample 594,199,5.22,9,0.749,2.511
+595,The article uses highly technical terminology and advanced concepts. Sample 595,34,5.43,6,0.854,3.239
+596,The document contains moderately complex vocabulary. Sample 596,133,6.74,7,0.269,0.276
+597,This passage is easy to read and understand. Sample 597,24,5.87,5,0.647,1.809
+598,This passage is easy to read and understand. Sample 598,134,4.76,10,0.713,2.675
+599,The article uses highly technical terminology and advanced concepts. Sample 599,236,7.98,12,0.459,-1.254
+600,The article uses highly technical terminology and advanced concepts. Sample 600,286,7.62,13,0.584,-2.941
+601,The story is engaging and suitable for young readers. Sample 601,211,6.31,20,0.609,-0.612
+602,This passage is easy to read and understand. Sample 602,266,3.82,9,0.641,3.892
+603,The article uses highly technical terminology and advanced concepts. Sample 603,172,4.44,17,0.765,4.197
+604,The research manuscript presents sophisticated theoretical arguments. Sample 604,226,6.8,5,0.721,2.243
+605,The article uses highly technical terminology and advanced concepts. Sample 605,152,8.03,13,0.388,-2.717
+606,The story is engaging and suitable for young readers. Sample 606,117,5.22,8,0.686,2.107
+607,The tutorial is beginner friendly and clearly written. Sample 607,203,6.04,6,0.841,4.012
+608,The document contains moderately complex vocabulary. Sample 608,170,3.99,5,0.741,2.801
+609,The research manuscript presents sophisticated theoretical arguments. Sample 609,113,8.23,11,0.654,-1.222
+610,The document contains moderately complex vocabulary. Sample 610,177,5.6,11,0.372,1.685
+611,The tutorial is beginner friendly and clearly written. Sample 611,80,5.85,19,0.58,1.965
+612,The tutorial is beginner friendly and clearly written. Sample 612,119,6.0,13,0.53,0.305
+613,The document contains moderately complex vocabulary. Sample 613,90,8.46,11,0.409,1.555
+614,The tutorial is beginner friendly and clearly written. Sample 614,93,5.08,6,0.779,0.901
+615,The story is engaging and suitable for young readers. Sample 615,110,5.07,2,0.005,-0.812
+616,The document contains moderately complex vocabulary. Sample 616,101,5.95,3,0.129,0.47
+617,The tutorial is beginner friendly and clearly written. Sample 617,226,5.65,16,0.383,-2.698
+618,The document contains moderately complex vocabulary. Sample 618,211,8.25,11,0.757,1.248
+619,This passage is easy to read and understand. Sample 619,22,6.63,8,0.226,4.016
+620,The article uses highly technical terminology and advanced concepts. Sample 620,86,4.01,17,0.589,-1.664
+621,This passage is easy to read and understand. Sample 621,172,8.24,15,0.728,1.771
+622,The article uses highly technical terminology and advanced concepts. Sample 622,242,7.94,5,0.343,4.211
+623,The article uses highly technical terminology and advanced concepts. Sample 623,116,4.32,13,0.019,-1.205
+624,The document contains moderately complex vocabulary. Sample 624,128,7.17,19,0.505,-2.015
+625,The story is engaging and suitable for young readers. Sample 625,39,5.38,9,0.771,1.985
+626,The research manuscript presents sophisticated theoretical arguments. Sample 626,44,6.81,1,0.048,-2.074
+627,The tutorial is beginner friendly and clearly written. Sample 627,214,4.12,9,0.474,-1.775
+628,The story is engaging and suitable for young readers. Sample 628,24,5.01,4,0.662,-0.84
+629,The research manuscript presents sophisticated theoretical arguments. Sample 629,90,5.59,4,0.512,1.942
+630,The article uses highly technical terminology and advanced concepts. Sample 630,78,7.42,16,0.199,-1.402
+631,The article uses highly technical terminology and advanced concepts. Sample 631,287,8.37,12,0.703,-0.637
+632,This passage is easy to read and understand. Sample 632,300,5.98,7,0.688,0.845
+633,The document contains moderately complex vocabulary. Sample 633,21,3.56,3,0.907,3.682
+634,The story is engaging and suitable for young readers. Sample 634,272,4.25,3,0.78,-2.4
+635,The story is engaging and suitable for young readers. Sample 635,71,8.02,8,0.457,4.818
+636,The article uses highly technical terminology and advanced concepts. Sample 636,257,3.75,6,0.874,3.818
+637,The article uses highly technical terminology and advanced concepts. Sample 637,180,5.63,4,0.095,3.066
+638,This passage is easy to read and understand. Sample 638,24,7.76,6,0.329,4.156
+639,The research manuscript presents sophisticated theoretical arguments. Sample 639,157,7.89,3,0.373,-0.258
+640,This passage is easy to read and understand. Sample 640,225,5.5,15,0.272,0.086
+641,The tutorial is beginner friendly and clearly written. Sample 641,235,6.74,6,0.113,2.569
+642,This passage is easy to read and understand. Sample 642,101,4.02,19,0.483,1.552
+643,The tutorial is beginner friendly and clearly written. Sample 643,112,6.56,12,0.611,3.901
+644,The story is engaging and suitable for young readers. Sample 644,86,5.92,16,0.113,0.29
+645,This passage is easy to read and understand. Sample 645,52,4.81,11,0.012,3.947
+646,The research manuscript presents sophisticated theoretical arguments. Sample 646,134,8.39,11,0.519,2.506
+647,The research manuscript presents sophisticated theoretical arguments. Sample 647,68,5.66,8,0.482,2.31
+648,The story is engaging and suitable for young readers. Sample 648,217,4.24,18,0.892,1.903
+649,This passage is easy to read and understand. Sample 649,100,6.03,16,0.852,3.955
+650,This passage is easy to read and understand. Sample 650,271,5.1,11,0.97,-2.597
+651,The document contains moderately complex vocabulary. Sample 651,213,5.52,8,0.079,0.554
+652,The research manuscript presents sophisticated theoretical arguments. Sample 652,249,3.94,16,0.447,-2.05
+653,The tutorial is beginner friendly and clearly written. Sample 653,29,4.01,14,0.036,1.393
+654,This passage is easy to read and understand. Sample 654,175,7.95,18,0.207,2.372
+655,The article uses highly technical terminology and advanced concepts. Sample 655,206,7.63,8,0.844,-0.344
+656,The research manuscript presents sophisticated theoretical arguments. Sample 656,262,7.08,12,0.716,-2.088
+657,The story is engaging and suitable for young readers. Sample 657,133,3.51,12,0.83,4.715
+658,The article uses highly technical terminology and advanced concepts. Sample 658,300,6.11,4,0.046,-1.687
+659,The document contains moderately complex vocabulary. Sample 659,229,4.03,20,0.196,-2.034
+660,The tutorial is beginner friendly and clearly written. Sample 660,130,5.79,7,0.717,-2.138
+661,The tutorial is beginner friendly and clearly written. Sample 661,43,8.13,19,0.123,4.134
+662,The tutorial is beginner friendly and clearly written. Sample 662,278,4.17,16,0.004,2.89
+663,The research manuscript presents sophisticated theoretical arguments. Sample 663,241,7.69,16,0.924,3.249
+664,The document contains moderately complex vocabulary. Sample 664,108,7.15,5,0.104,2.26
+665,The research manuscript presents sophisticated theoretical arguments. Sample 665,184,6.02,13,0.419,1.872
+666,The story is engaging and suitable for young readers. Sample 666,147,4.87,11,0.97,0.623
+667,The document contains moderately complex vocabulary. Sample 667,90,5.56,17,0.299,2.612
+668,The article uses highly technical terminology and advanced concepts. Sample 668,131,4.5,20,0.714,2.493
+669,The story is engaging and suitable for young readers. Sample 669,87,8.41,6,0.504,2.554
+670,The article uses highly technical terminology and advanced concepts. Sample 670,79,7.3,18,0.48,1.565
+671,The story is engaging and suitable for young readers. Sample 671,233,6.87,18,0.286,3.778
+672,This passage is easy to read and understand. Sample 672,287,4.03,13,0.145,2.362
+673,The document contains moderately complex vocabulary. Sample 673,156,7.25,6,0.984,2.467
+674,The document contains moderately complex vocabulary. Sample 674,51,6.95,10,0.204,1.329
+675,The article uses highly technical terminology and advanced concepts. Sample 675,251,4.01,18,0.865,2.939
+676,The research manuscript presents sophisticated theoretical arguments. Sample 676,219,4.69,10,0.693,-2.624
+677,The tutorial is beginner friendly and clearly written. Sample 677,218,5.58,11,0.966,-2.57
+678,The story is engaging and suitable for young readers. Sample 678,148,4.52,15,0.83,4.292
+679,The story is engaging and suitable for young readers. Sample 679,208,7.28,18,0.738,-1.428
+680,The story is engaging and suitable for young readers. Sample 680,119,4.97,6,0.983,-2.404
+681,The document contains moderately complex vocabulary. Sample 681,283,4.1,2,0.429,1.453
+682,The document contains moderately complex vocabulary. Sample 682,102,6.42,9,0.006,0.731
+683,The document contains moderately complex vocabulary. Sample 683,40,4.27,11,0.597,3.189
+684,The story is engaging and suitable for young readers. Sample 684,174,5.95,19,0.55,-2.417
+685,The story is engaging and suitable for young readers. Sample 685,182,6.13,6,0.521,3.29
+686,The document contains moderately complex vocabulary. Sample 686,232,6.22,13,0.092,-1.23
+687,The document contains moderately complex vocabulary. Sample 687,189,5.16,10,0.218,3.021
+688,The research manuscript presents sophisticated theoretical arguments. Sample 688,263,8.48,1,0.115,-0.232
+689,The document contains moderately complex vocabulary. Sample 689,144,8.29,11,0.381,3.37
+690,This passage is easy to read and understand. Sample 690,217,4.78,10,0.025,1.135
+691,The article uses highly technical terminology and advanced concepts. Sample 691,283,7.51,15,0.487,-0.629
+692,The story is engaging and suitable for young readers. Sample 692,118,5.1,3,0.948,-1.661
+693,The research manuscript presents sophisticated theoretical arguments. Sample 693,293,3.54,3,0.211,2.036
+694,The document contains moderately complex vocabulary. Sample 694,237,7.68,7,0.538,2.622
+695,The story is engaging and suitable for young readers. Sample 695,242,6.73,3,0.747,-1.77
+696,The tutorial is beginner friendly and clearly written. Sample 696,189,3.69,3,0.054,3.354
+697,The research manuscript presents sophisticated theoretical arguments. Sample 697,56,6.37,8,0.911,0.261
+698,The tutorial is beginner friendly and clearly written. Sample 698,227,5.67,1,0.39,-2.054
+699,This passage is easy to read and understand. Sample 699,52,7.28,19,0.046,3.786
+700,The article uses highly technical terminology and advanced concepts. Sample 700,277,4.03,10,0.607,-0.748
+701,The tutorial is beginner friendly and clearly written. Sample 701,215,5.48,1,0.474,1.268
+702,The document contains moderately complex vocabulary. Sample 702,220,7.48,18,0.295,2.072
+703,The article uses highly technical terminology and advanced concepts. Sample 703,211,8.29,1,0.554,1.441
+704,This passage is easy to read and understand. Sample 704,41,3.53,20,0.394,1.38
+705,This passage is easy to read and understand. Sample 705,176,4.55,12,0.212,4.245
+706,The research manuscript presents sophisticated theoretical arguments. Sample 706,92,4.3,8,0.617,-0.978
+707,This passage is easy to read and understand. Sample 707,112,6.85,19,0.852,3.811
+708,The research manuscript presents sophisticated theoretical arguments. Sample 708,256,6.72,3,0.291,-2.461
+709,This passage is easy to read and understand. Sample 709,121,7.13,16,0.952,-0.143
+710,The story is engaging and suitable for young readers. Sample 710,140,4.0,20,0.07,-1.452
+711,The tutorial is beginner friendly and clearly written. Sample 711,250,5.14,10,0.693,-1.781
+712,The research manuscript presents sophisticated theoretical arguments. Sample 712,206,7.54,14,0.169,-0.494
+713,The document contains moderately complex vocabulary. Sample 713,243,4.88,12,0.134,2.864
+714,The tutorial is beginner friendly and clearly written. Sample 714,256,5.73,10,0.487,-2.129
+715,The story is engaging and suitable for young readers. Sample 715,61,7.71,5,0.891,-1.429
+716,The story is engaging and suitable for young readers. Sample 716,59,7.14,1,0.85,2.053
+717,The research manuscript presents sophisticated theoretical arguments. Sample 717,227,7.35,7,0.906,1.413
+718,The research manuscript presents sophisticated theoretical arguments. Sample 718,296,5.86,5,0.366,-1.214
+719,The research manuscript presents sophisticated theoretical arguments. Sample 719,168,4.17,17,0.51,0.174
+720,The research manuscript presents sophisticated theoretical arguments. Sample 720,25,6.81,20,0.684,3.058
+721,The document contains moderately complex vocabulary. Sample 721,248,4.3,19,0.949,2.275
+722,The document contains moderately complex vocabulary. Sample 722,267,8.2,2,0.219,0.901
+723,This passage is easy to read and understand. Sample 723,155,5.35,2,0.669,1.143
+724,The article uses highly technical terminology and advanced concepts. Sample 724,218,5.85,15,0.882,-2.681
+725,The story is engaging and suitable for young readers. Sample 725,185,4.02,17,0.634,-0.812
+726,The story is engaging and suitable for young readers. Sample 726,154,6.39,19,0.174,2.229
+727,The article uses highly technical terminology and advanced concepts. Sample 727,59,6.08,13,0.973,-1.217
+728,The tutorial is beginner friendly and clearly written. Sample 728,200,7.59,12,0.487,0.857
+729,The research manuscript presents sophisticated theoretical arguments. Sample 729,23,6.01,5,0.44,-1.16
+730,The research manuscript presents sophisticated theoretical arguments. Sample 730,163,4.56,6,0.157,1.816
+731,This passage is easy to read and understand. Sample 731,137,5.57,11,0.72,0.852
+732,The tutorial is beginner friendly and clearly written. Sample 732,265,4.55,6,0.647,0.287
+733,The document contains moderately complex vocabulary. Sample 733,42,4.14,19,0.161,2.036
+734,This passage is easy to read and understand. Sample 734,95,3.78,9,0.922,1.133
+735,The tutorial is beginner friendly and clearly written. Sample 735,29,7.89,10,0.947,-1.267
+736,The research manuscript presents sophisticated theoretical arguments. Sample 736,261,7.84,6,0.219,0.286
+737,The document contains moderately complex vocabulary. Sample 737,113,6.62,17,0.265,2.793
+738,The article uses highly technical terminology and advanced concepts. Sample 738,252,6.48,3,0.23,0.084
+739,This passage is easy to read and understand. Sample 739,28,4.51,17,0.684,3.612
+740,The research manuscript presents sophisticated theoretical arguments. Sample 740,69,4.39,20,0.6,4.022
+741,The research manuscript presents sophisticated theoretical arguments. Sample 741,277,7.26,3,0.482,-1.957
+742,The research manuscript presents sophisticated theoretical arguments. Sample 742,296,7.64,14,0.522,-0.037
+743,This passage is easy to read and understand. Sample 743,291,5.64,16,0.79,0.05
+744,The research manuscript presents sophisticated theoretical arguments. Sample 744,70,5.63,9,0.477,-1.14
+745,This passage is easy to read and understand. Sample 745,165,6.49,18,0.409,-1.488
+746,The story is engaging and suitable for young readers. Sample 746,23,6.39,4,0.52,0.0
+747,The document contains moderately complex vocabulary. Sample 747,181,5.54,4,0.155,2.213
+748,The article uses highly technical terminology and advanced concepts. Sample 748,153,7.77,14,0.565,1.895
+749,The story is engaging and suitable for young readers. Sample 749,223,7.27,14,0.552,1.461
+750,The document contains moderately complex vocabulary. Sample 750,209,6.3,16,0.254,-0.547
+751,The article uses highly technical terminology and advanced concepts. Sample 751,223,7.18,4,0.748,0.573
+752,The story is engaging and suitable for young readers. Sample 752,102,4.0,17,0.401,-0.292
+753,The research manuscript presents sophisticated theoretical arguments. Sample 753,46,4.3,1,0.804,3.586
+754,The tutorial is beginner friendly and clearly written. Sample 754,242,3.94,9,0.222,-2.36
+755,This passage is easy to read and understand. Sample 755,216,8.15,13,0.614,1.168
+756,The story is engaging and suitable for young readers. Sample 756,49,8.23,6,0.64,0.512
+757,The document contains moderately complex vocabulary. Sample 757,285,4.93,2,0.784,1.084
+758,The story is engaging and suitable for young readers. Sample 758,138,6.58,2,0.36,2.24
+759,The document contains moderately complex vocabulary. Sample 759,64,8.48,13,0.353,0.161
+760,The research manuscript presents sophisticated theoretical arguments. Sample 760,122,6.09,3,0.919,1.397
+761,The story is engaging and suitable for young readers. Sample 761,198,5.24,9,0.226,4.704
+762,The tutorial is beginner friendly and clearly written. Sample 762,226,6.37,9,0.175,1.05
+763,The research manuscript presents sophisticated theoretical arguments. Sample 763,57,6.02,11,0.947,3.424
+764,The article uses highly technical terminology and advanced concepts. Sample 764,295,7.57,19,0.25,0.542
+765,The tutorial is beginner friendly and clearly written. Sample 765,267,7.35,11,0.961,0.671
+766,The tutorial is beginner friendly and clearly written. Sample 766,34,5.91,9,0.068,2.069
+767,The document contains moderately complex vocabulary. Sample 767,137,7.5,14,0.955,1.132
+768,This passage is easy to read and understand. Sample 768,154,4.74,3,0.399,2.99
+769,The article uses highly technical terminology and advanced concepts. Sample 769,58,6.27,6,0.477,-0.172
+770,The research manuscript presents sophisticated theoretical arguments. Sample 770,157,4.41,7,0.499,-1.403
+771,The story is engaging and suitable for young readers. Sample 771,143,7.86,7,0.229,3.68
+772,The research manuscript presents sophisticated theoretical arguments. Sample 772,202,4.28,4,0.12,-2.372
+773,The story is engaging and suitable for young readers. Sample 773,272,6.57,18,0.958,3.784
+774,The article uses highly technical terminology and advanced concepts. Sample 774,181,5.96,19,0.869,0.926
+775,The research manuscript presents sophisticated theoretical arguments. Sample 775,163,5.49,19,0.128,1.206
+776,The tutorial is beginner friendly and clearly written. Sample 776,264,8.2,2,0.502,0.15
+777,The story is engaging and suitable for young readers. Sample 777,109,5.79,4,0.698,0.681
+778,The story is engaging and suitable for young readers. Sample 778,24,3.56,7,0.379,-2.194
+779,The article uses highly technical terminology and advanced concepts. Sample 779,152,4.44,9,0.237,0.771
+780,The research manuscript presents sophisticated theoretical arguments. Sample 780,195,5.33,16,0.424,0.353
+781,The article uses highly technical terminology and advanced concepts. Sample 781,206,7.77,9,0.451,1.571
+782,The research manuscript presents sophisticated theoretical arguments. Sample 782,137,7.57,9,0.804,1.443
+783,The tutorial is beginner friendly and clearly written. Sample 783,120,4.23,5,0.473,-2.922
+784,The tutorial is beginner friendly and clearly written. Sample 784,275,4.17,17,0.534,-0.474
+785,The tutorial is beginner friendly and clearly written. Sample 785,173,4.75,19,0.048,-2.208
+786,The document contains moderately complex vocabulary. Sample 786,50,4.58,9,0.477,2.039
+787,The tutorial is beginner friendly and clearly written. Sample 787,191,4.8,12,0.56,4.455
+788,The article uses highly technical terminology and advanced concepts. Sample 788,196,3.6,4,0.351,2.437
+789,The research manuscript presents sophisticated theoretical arguments. Sample 789,121,6.38,18,0.175,3.242
+790,The article uses highly technical terminology and advanced concepts. Sample 790,186,6.87,16,0.775,0.575
+791,This passage is easy to read and understand. Sample 791,215,6.57,15,0.632,-1.841
+792,The document contains moderately complex vocabulary. Sample 792,192,5.61,20,0.572,3.791
+793,This passage is easy to read and understand. Sample 793,60,4.31,8,0.313,2.224
+794,The story is engaging and suitable for young readers. Sample 794,156,6.53,13,0.271,0.559
+795,The article uses highly technical terminology and advanced concepts. Sample 795,286,8.33,14,0.167,3.834
+796,The document contains moderately complex vocabulary. Sample 796,140,6.81,3,0.211,0.176
+797,This passage is easy to read and understand. Sample 797,52,8.18,16,0.548,-2.789
+798,The tutorial is beginner friendly and clearly written. Sample 798,288,7.32,3,0.104,1.945
+799,This passage is easy to read and understand. Sample 799,219,5.05,8,0.738,0.545
+800,The document contains moderately complex vocabulary. Sample 800,87,6.13,6,0.029,2.308
+801,The article uses highly technical terminology and advanced concepts. Sample 801,263,5.84,18,0.935,1.388
+802,The document contains moderately complex vocabulary. Sample 802,296,4.39,20,0.457,2.991
+803,The research manuscript presents sophisticated theoretical arguments. Sample 803,242,6.12,18,0.31,-0.223
+804,The research manuscript presents sophisticated theoretical arguments. Sample 804,136,7.52,15,0.308,0.298
+805,The document contains moderately complex vocabulary. Sample 805,175,3.55,17,0.815,3.784
+806,The article uses highly technical terminology and advanced concepts. Sample 806,166,5.85,1,0.688,0.935
+807,The tutorial is beginner friendly and clearly written. Sample 807,173,3.55,14,0.798,1.776
+808,This passage is easy to read and understand. Sample 808,300,5.37,14,0.882,0.497
+809,The document contains moderately complex vocabulary. Sample 809,103,7.07,13,0.828,-1.235
+810,This passage is easy to read and understand. Sample 810,236,6.63,17,0.765,4.28
+811,The story is engaging and suitable for young readers. Sample 811,159,4.92,18,0.809,0.303
+812,This passage is easy to read and understand. Sample 812,113,4.18,4,0.637,1.942
+813,The article uses highly technical terminology and advanced concepts. Sample 813,271,4.44,1,0.152,4.758
+814,This passage is easy to read and understand. Sample 814,115,8.36,10,0.269,2.722
+815,The story is engaging and suitable for young readers. Sample 815,24,4.66,5,0.015,-1.262
+816,The tutorial is beginner friendly and clearly written. Sample 816,179,7.43,16,0.998,0.709
+817,This passage is easy to read and understand. Sample 817,189,3.9,5,0.056,3.205
+818,This passage is easy to read and understand. Sample 818,298,5.85,7,0.896,-0.999
+819,The tutorial is beginner friendly and clearly written. Sample 819,26,4.11,8,0.385,4.8
+820,The document contains moderately complex vocabulary. Sample 820,37,4.5,4,0.521,4.857
+821,The tutorial is beginner friendly and clearly written. Sample 821,219,6.91,10,0.936,-1.731
+822,The story is engaging and suitable for young readers. Sample 822,41,7.22,18,0.521,-0.973
+823,The story is engaging and suitable for young readers. Sample 823,172,4.49,2,0.864,-1.258
+824,This passage is easy to read and understand. Sample 824,140,6.66,11,0.015,3.355
+825,The research manuscript presents sophisticated theoretical arguments. Sample 825,81,5.48,8,0.009,-2.664
+826,The story is engaging and suitable for young readers. Sample 826,263,6.94,5,0.371,-2.284
+827,The document contains moderately complex vocabulary. Sample 827,275,3.96,20,0.338,4.757
+828,The story is engaging and suitable for young readers. Sample 828,50,3.8,5,0.701,3.332
+829,The document contains moderately complex vocabulary. Sample 829,269,4.66,18,0.789,3.054
+830,The tutorial is beginner friendly and clearly written. Sample 830,118,3.61,13,0.358,-1.922
+831,This passage is easy to read and understand. Sample 831,268,7.03,18,0.295,2.576
+832,The document contains moderately complex vocabulary. Sample 832,115,6.22,11,0.732,-0.797
+833,The research manuscript presents sophisticated theoretical arguments. Sample 833,102,3.84,5,0.449,3.555
+834,The research manuscript presents sophisticated theoretical arguments. Sample 834,207,5.77,17,0.379,-1.516
+835,This passage is easy to read and understand. Sample 835,206,7.38,8,0.321,-2.493
+836,The research manuscript presents sophisticated theoretical arguments. Sample 836,218,4.45,16,0.766,-1.767
+837,The article uses highly technical terminology and advanced concepts. Sample 837,185,5.55,11,0.11,1.186
+838,This passage is easy to read and understand. Sample 838,42,7.68,5,0.179,-2.75
+839,This passage is easy to read and understand. Sample 839,268,4.46,2,0.571,3.69
+840,The story is engaging and suitable for young readers. Sample 840,270,6.13,19,0.256,-0.069
+841,The research manuscript presents sophisticated theoretical arguments. Sample 841,56,3.57,7,0.656,4.427
+842,This passage is easy to read and understand. Sample 842,259,7.51,2,0.361,2.948
+843,The tutorial is beginner friendly and clearly written. Sample 843,208,7.47,2,0.824,-0.873
+844,This passage is easy to read and understand. Sample 844,56,7.67,3,0.945,4.685
+845,This passage is easy to read and understand. Sample 845,71,7.13,18,0.385,-1.455
+846,The story is engaging and suitable for young readers. Sample 846,147,6.35,6,0.558,1.465
+847,The story is engaging and suitable for young readers. Sample 847,74,7.33,19,0.358,0.67
+848,The story is engaging and suitable for young readers. Sample 848,238,7.91,6,0.792,1.4
+849,The research manuscript presents sophisticated theoretical arguments. Sample 849,192,6.79,18,0.998,0.544
+850,The article uses highly technical terminology and advanced concepts. Sample 850,181,6.25,11,0.845,0.299
+851,The story is engaging and suitable for young readers. Sample 851,240,7.63,11,0.608,1.505
+852,The document contains moderately complex vocabulary. Sample 852,212,7.33,9,0.36,0.619
+853,The tutorial is beginner friendly and clearly written. Sample 853,20,7.13,10,0.596,1.141
+854,The article uses highly technical terminology and advanced concepts. Sample 854,23,5.0,8,0.215,-0.481
+855,The story is engaging and suitable for young readers. Sample 855,161,8.1,17,0.556,4.407
+856,The document contains moderately complex vocabulary. Sample 856,68,3.69,12,0.156,-0.88
+857,The research manuscript presents sophisticated theoretical arguments. Sample 857,147,4.66,10,0.092,0.198
+858,The document contains moderately complex vocabulary. Sample 858,59,7.12,16,0.173,3.606
+859,The story is engaging and suitable for young readers. Sample 859,68,6.48,10,0.037,3.467
+860,The tutorial is beginner friendly and clearly written. Sample 860,60,7.4,11,0.348,3.537
+861,The tutorial is beginner friendly and clearly written. Sample 861,81,7.85,8,0.748,3.796
+862,This passage is easy to read and understand. Sample 862,215,3.77,17,0.041,1.319
+863,The document contains moderately complex vocabulary. Sample 863,187,6.01,8,0.153,2.389
+864,The tutorial is beginner friendly and clearly written. Sample 864,248,7.26,19,0.505,-1.223
+865,The article uses highly technical terminology and advanced concepts. Sample 865,221,4.24,11,0.083,1.572
+866,This passage is easy to read and understand. Sample 866,300,5.5,3,0.399,0.476
+867,The story is engaging and suitable for young readers. Sample 867,86,7.31,16,0.559,0.903
+868,The story is engaging and suitable for young readers. Sample 868,120,6.31,17,0.246,-2.427
+869,The tutorial is beginner friendly and clearly written. Sample 869,185,6.92,19,0.09,2.374
+870,The tutorial is beginner friendly and clearly written. Sample 870,207,5.24,11,0.345,2.243
+871,The article uses highly technical terminology and advanced concepts. Sample 871,106,8.44,20,0.822,3.422
+872,The research manuscript presents sophisticated theoretical arguments. Sample 872,94,5.7,8,0.2,-0.009
+873,The story is engaging and suitable for young readers. Sample 873,63,4.06,2,0.243,1.968
+874,The document contains moderately complex vocabulary. Sample 874,167,3.57,4,0.305,0.77
+875,The article uses highly technical terminology and advanced concepts. Sample 875,127,7.2,7,0.204,1.186
+876,The article uses highly technical terminology and advanced concepts. Sample 876,300,5.92,5,0.695,2.346
+877,The tutorial is beginner friendly and clearly written. Sample 877,289,3.72,6,0.06,-1.394
+878,The story is engaging and suitable for young readers. Sample 878,158,3.77,1,0.067,2.283
+879,The story is engaging and suitable for young readers. Sample 879,204,7.82,1,0.292,4.067
+880,The tutorial is beginner friendly and clearly written. Sample 880,138,8.4,17,0.977,-2.203
+881,The article uses highly technical terminology and advanced concepts. Sample 881,268,7.83,18,0.088,-1.409
+882,The tutorial is beginner friendly and clearly written. Sample 882,31,3.7,17,0.305,0.919
+883,The story is engaging and suitable for young readers. Sample 883,100,3.59,12,0.355,-0.581
+884,The research manuscript presents sophisticated theoretical arguments. Sample 884,161,7.56,9,0.879,4.123
+885,This passage is easy to read and understand. Sample 885,163,4.63,11,0.897,2.255
+886,This passage is easy to read and understand. Sample 886,215,6.1,20,0.873,2.492
+887,The tutorial is beginner friendly and clearly written. Sample 887,143,6.36,14,0.971,4.278
+888,The article uses highly technical terminology and advanced concepts. Sample 888,249,6.21,7,0.652,1.648
+889,The story is engaging and suitable for young readers. Sample 889,123,7.81,10,0.689,4.189
+890,The document contains moderately complex vocabulary. Sample 890,240,8.48,5,0.656,1.519
+891,The document contains moderately complex vocabulary. Sample 891,182,3.84,18,0.949,-2.053
+892,The article uses highly technical terminology and advanced concepts. Sample 892,94,7.14,11,0.88,0.312
+893,The tutorial is beginner friendly and clearly written. Sample 893,175,5.72,9,0.152,-1.497
+894,The document contains moderately complex vocabulary. Sample 894,114,3.63,20,0.617,1.845
+895,The research manuscript presents sophisticated theoretical arguments. Sample 895,138,6.48,8,0.687,-0.126
+896,The story is engaging and suitable for young readers. Sample 896,264,4.17,20,0.469,2.197
+897,The document contains moderately complex vocabulary. Sample 897,218,5.96,5,0.164,-1.19
+898,The tutorial is beginner friendly and clearly written. Sample 898,27,8.13,14,0.223,2.371
+899,The document contains moderately complex vocabulary. Sample 899,124,3.83,15,0.867,0.92
+900,The article uses highly technical terminology and advanced concepts. Sample 900,254,7.94,14,0.405,-2.665
+901,The story is engaging and suitable for young readers. Sample 901,214,7.1,13,0.612,2.94
+902,The research manuscript presents sophisticated theoretical arguments. Sample 902,294,6.13,2,0.521,0.613
+903,This passage is easy to read and understand. Sample 903,145,6.09,13,0.984,-2.686
+904,The tutorial is beginner friendly and clearly written. Sample 904,284,7.33,2,0.19,0.516
+905,The article uses highly technical terminology and advanced concepts. Sample 905,166,5.81,14,0.294,4.352
+906,The story is engaging and suitable for young readers. Sample 906,284,8.02,15,0.83,0.614
+907,The story is engaging and suitable for young readers. Sample 907,276,4.07,19,0.938,2.569
+908,The document contains moderately complex vocabulary. Sample 908,221,5.57,15,0.025,0.629
+909,The story is engaging and suitable for young readers. Sample 909,123,7.91,3,0.25,2.534
+910,The story is engaging and suitable for young readers. Sample 910,103,7.09,4,0.091,2.65
+911,The story is engaging and suitable for young readers. Sample 911,205,3.93,13,0.727,4.802
+912,The research manuscript presents sophisticated theoretical arguments. Sample 912,101,5.39,13,0.044,-1.633
+913,The article uses highly technical terminology and advanced concepts. Sample 913,96,4.31,5,0.179,2.696
+914,The tutorial is beginner friendly and clearly written. Sample 914,177,5.05,15,0.289,-1.554
+915,The document contains moderately complex vocabulary. Sample 915,123,3.52,9,0.012,0.981
+916,The tutorial is beginner friendly and clearly written. Sample 916,298,7.54,20,0.883,-1.097
+917,The research manuscript presents sophisticated theoretical arguments. Sample 917,263,5.77,15,0.079,1.801
+918,The document contains moderately complex vocabulary. Sample 918,300,4.89,18,0.82,-1.339
+919,The document contains moderately complex vocabulary. Sample 919,95,3.78,12,0.037,3.831
+920,The story is engaging and suitable for young readers. Sample 920,172,5.16,3,0.049,0.336
+921,The document contains moderately complex vocabulary. Sample 921,102,6.86,20,0.661,2.599
+922,The research manuscript presents sophisticated theoretical arguments. Sample 922,110,8.33,19,0.36,-2.713
+923,The article uses highly technical terminology and advanced concepts. Sample 923,185,5.34,13,0.82,3.068
+924,The research manuscript presents sophisticated theoretical arguments. Sample 924,53,4.96,5,0.122,3.875
+925,The article uses highly technical terminology and advanced concepts. Sample 925,289,5.57,7,0.696,1.896
+926,This passage is easy to read and understand. Sample 926,290,8.44,16,0.724,1.838
+927,The story is engaging and suitable for young readers. Sample 927,167,5.64,11,0.26,1.601
+928,The research manuscript presents sophisticated theoretical arguments. Sample 928,201,8.14,20,0.563,1.158
+929,The story is engaging and suitable for young readers. Sample 929,274,5.96,6,0.884,-1.138
+930,The article uses highly technical terminology and advanced concepts. Sample 930,119,3.51,1,0.465,3.374
+931,The story is engaging and suitable for young readers. Sample 931,126,7.5,14,0.414,-0.33
+932,The research manuscript presents sophisticated theoretical arguments. Sample 932,128,3.56,7,0.69,-0.965
+933,This passage is easy to read and understand. Sample 933,177,5.0,18,0.324,-2.951
+934,The story is engaging and suitable for young readers. Sample 934,190,5.21,19,0.616,-2.767
+935,The document contains moderately complex vocabulary. Sample 935,119,5.15,11,0.922,0.833
+936,The tutorial is beginner friendly and clearly written. Sample 936,38,6.73,16,0.155,0.685
+937,The research manuscript presents sophisticated theoretical arguments. Sample 937,191,5.81,14,0.928,-2.552
+938,The research manuscript presents sophisticated theoretical arguments. Sample 938,173,6.32,11,0.555,-2.85
+939,The research manuscript presents sophisticated theoretical arguments. Sample 939,189,7.5,12,0.066,-1.806
+940,This passage is easy to read and understand. Sample 940,193,8.42,18,0.842,1.568
+941,The tutorial is beginner friendly and clearly written. Sample 941,115,6.48,10,0.705,-0.484
+942,This passage is easy to read and understand. Sample 942,159,5.57,16,0.877,-0.027
+943,The article uses highly technical terminology and advanced concepts. Sample 943,130,6.13,6,0.112,3.28
+944,The document contains moderately complex vocabulary. Sample 944,67,5.72,1,0.799,4.24
+945,The document contains moderately complex vocabulary. Sample 945,117,5.2,16,0.732,1.189
+946,The article uses highly technical terminology and advanced concepts. Sample 946,93,7.35,4,0.822,4.504
+947,The story is engaging and suitable for young readers. Sample 947,87,4.53,2,0.459,2.709
+948,The research manuscript presents sophisticated theoretical arguments. Sample 948,79,3.52,2,0.687,1.754
+949,This passage is easy to read and understand. Sample 949,190,5.83,2,0.103,3.129
+950,The story is engaging and suitable for young readers. Sample 950,179,3.61,10,0.639,-1.321
+951,The document contains moderately complex vocabulary. Sample 951,118,4.93,18,0.319,0.529
+952,This passage is easy to read and understand. Sample 952,159,4.25,9,0.114,4.666
+953,The research manuscript presents sophisticated theoretical arguments. Sample 953,283,4.01,18,0.35,-0.452
+954,The document contains moderately complex vocabulary. Sample 954,165,6.37,6,0.071,1.906
+955,The article uses highly technical terminology and advanced concepts. Sample 955,296,5.72,5,0.029,4.226
+956,This passage is easy to read and understand. Sample 956,74,5.42,3,0.426,-1.568
+957,The research manuscript presents sophisticated theoretical arguments. Sample 957,248,6.58,10,0.332,-1.415
+958,The story is engaging and suitable for young readers. Sample 958,293,3.89,15,0.568,-2.257
+959,The story is engaging and suitable for young readers. Sample 959,259,3.99,10,0.684,2.682
+960,The tutorial is beginner friendly and clearly written. Sample 960,260,4.66,8,0.144,4.166
+961,The article uses highly technical terminology and advanced concepts. Sample 961,206,5.46,11,0.789,4.059
+962,The tutorial is beginner friendly and clearly written. Sample 962,269,3.65,16,0.113,0.829
+963,The document contains moderately complex vocabulary. Sample 963,164,7.34,20,0.575,1.064
+964,The tutorial is beginner friendly and clearly written. Sample 964,74,5.13,3,0.792,1.262
+965,The tutorial is beginner friendly and clearly written. Sample 965,231,4.69,8,0.548,4.791
+966,The tutorial is beginner friendly and clearly written. Sample 966,53,5.2,19,0.431,4.842
+967,The research manuscript presents sophisticated theoretical arguments. Sample 967,195,6.22,8,0.173,2.357
+968,The story is engaging and suitable for young readers. Sample 968,269,4.07,20,0.463,1.441
+969,The tutorial is beginner friendly and clearly written. Sample 969,110,5.04,13,0.07,-2.13
+970,The research manuscript presents sophisticated theoretical arguments. Sample 970,214,5.14,2,0.091,3.536
+971,The research manuscript presents sophisticated theoretical arguments. Sample 971,20,7.29,5,0.453,-0.668
+972,The research manuscript presents sophisticated theoretical arguments. Sample 972,248,4.48,11,0.3,3.355
+973,The story is engaging and suitable for young readers. Sample 973,175,8.09,14,0.718,4.321
+974,This passage is easy to read and understand. Sample 974,24,6.56,17,0.404,-1.98
+975,The article uses highly technical terminology and advanced concepts. Sample 975,51,5.35,18,0.968,-2.993
+976,The research manuscript presents sophisticated theoretical arguments. Sample 976,203,4.05,10,0.866,-1.118
+977,The story is engaging and suitable for young readers. Sample 977,221,6.63,13,0.406,0.482
+978,The document contains moderately complex vocabulary. Sample 978,108,5.87,7,0.555,3.747
+979,The article uses highly technical terminology and advanced concepts. Sample 979,233,4.27,5,0.134,-2.426
+980,This passage is easy to read and understand. Sample 980,93,7.11,16,0.658,4.8
+981,The document contains moderately complex vocabulary. Sample 981,63,4.19,14,0.86,4.149
+982,The story is engaging and suitable for young readers. Sample 982,237,6.62,15,0.509,1.416
+983,The tutorial is beginner friendly and clearly written. Sample 983,216,5.28,6,0.425,-2.941
+984,The tutorial is beginner friendly and clearly written. Sample 984,141,7.06,9,0.411,1.369
+985,The article uses highly technical terminology and advanced concepts. Sample 985,37,8.39,19,0.483,-0.051
+986,The research manuscript presents sophisticated theoretical arguments. Sample 986,266,8.31,3,0.142,2.85
+987,The article uses highly technical terminology and advanced concepts. Sample 987,258,6.08,17,0.89,-2.292
+988,The tutorial is beginner friendly and clearly written. Sample 988,59,6.92,18,0.798,-0.5
+989,This passage is easy to read and understand. Sample 989,195,6.18,1,0.469,1.101
+990,The tutorial is beginner friendly and clearly written. Sample 990,189,5.61,10,0.289,-2.717
+991,The research manuscript presents sophisticated theoretical arguments. Sample 991,175,7.13,19,0.26,2.034
+992,The research manuscript presents sophisticated theoretical arguments. Sample 992,106,6.36,10,0.809,1.995
+993,The article uses highly technical terminology and advanced concepts. Sample 993,268,3.91,17,0.077,3.27
+994,The article uses highly technical terminology and advanced concepts. Sample 994,87,6.58,9,0.858,-2.886
+995,This passage is easy to read and understand. Sample 995,109,8.05,5,0.659,-0.042
+996,The document contains moderately complex vocabulary. Sample 996,153,7.41,8,0.485,3.395
+997,This passage is easy to read and understand. Sample 997,195,8.42,5,0.596,3.574
+998,The tutorial is beginner friendly and clearly written. Sample 998,231,7.35,8,0.661,2.808
+999,The document contains moderately complex vocabulary. Sample 999,127,6.39,12,0.054,-0.885
+1000,This passage is easy to read and understand. Sample 1000,46,4.34,13,0.476,0.81

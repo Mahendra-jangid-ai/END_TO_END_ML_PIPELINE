@@ -257,6 +257,14 @@ def main(cfg: DictConfig | None = None) -> int:
             "task_info": task_info,
             "artifacts": task_paths,
         }
+        if hasattr(ds, "cleaning_report"):
+            report["cleaning_report"] = ds.cleaning_report
+            report["quality_report"] = ds.quality_report
+            report["row_level_audit"] = ds.row_level_audit
+            report["issue_summary"] = ds.issue_summary
+            report["warnings"] = ds.warnings
+            report["recommendations"] = ds.recommendations
+            
         report_path = save_load_report(report, cfg.dataset.save_dir)
 
         logger.info(f"Saved dataset splits to: {Path(cfg.dataset.save_dir)}")
