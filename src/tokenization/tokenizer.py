@@ -31,33 +31,15 @@ Optional:
 
 from __future__ import annotations
 
-import argparse
 import json
 import logging
 import os
-import sys
-from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
 import pandas as pd
-from datasets import Dataset, DatasetDict, load_dataset
+from datasets import Dataset, DatasetDict
 from transformers import AutoTokenizer
-
-try:
-    from sklearn.model_selection import train_test_split
-except Exception:
-    train_test_split = None
-
-
-# -----------------------------
-# Logging
-# -----------------------------
-def setup_logging(level: str = "INFO") -> None:
-    logging.basicConfig(
-        level=getattr(logging, level.upper(), logging.INFO),
-        format="%(asctime)s | %(levelname)s | %(message)s",
-    )
 
 
 logger = logging.getLogger(__name__)
@@ -66,17 +48,7 @@ logger = logging.getLogger(__name__)
 # -----------------------------
 # Helpers
 # -----------------------------
-SUPPORTED_TEXT_EXTS = {".csv", ".json", ".jsonl", ".txt", ".parquet", ".xlsx", ".xls"}
 
-
-def detect_file_type(file_path: str) -> str:
-    ext = Path(file_path).suffix.lower()
-    if ext not in SUPPORTED_TEXT_EXTS:
-        raise ValueError(
-            f"Unsupported file type: {ext}. "
-            f"Supported: {', '.join(sorted(SUPPORTED_TEXT_EXTS))}"
-        )
-    return ext
 
 
 def safe_str(x) -> str:
@@ -110,46 +82,10 @@ def infer_text_columns(df: pd.DataFrame, threshold: float = 0.55) -> List[str]:
     return text_cols
 
 
-def combine_text_columns(df: pd.DataFrame, text_columns: List[str]) -> pd.DataFrame:
-    """
-    Create one canonical text field from selected columns.
-    """
-    if not text_columns:
-        raise ValueError("No text columns found to tokenize.")
-
-    def row_to_text(row) -> str:
-        parts = []
-        for col in text_columns:
-            val = safe_str(row.get(col, ""))
-            if val:
-                parts.append(val)
-        return " [SEP] ".join(parts).strip()
-
-    out = df.copy()
-    out["__text__"] = out.apply(row_to_text, axis=1)
-    out = out[out["__text__"].astype(str).str.len() > 0].reset_index(drop=True)
-    return out
 
 
-def load_input_file(file_path: str) -> pd.DataFrame:
-    ext = detect_file_type(file_path)
 
-    logger.info("Loading file: %s", file_path)
 
-    if ext == ".csv":
-        return pd.read_csv(file_path)
-    if ext in {".json", ".jsonl"}:
-        return pd.read_json(file_path, lines=(ext == ".jsonl"))
-    if ext == ".parquet":
-        return pd.read_parquet(file_path)
-    if ext in {".xlsx", ".xls"}:
-        return pd.read_excel(file_path)
-    if ext == ".txt":
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-            lines = [line.strip() for line in f if line.strip()]
-        return pd.DataFrame({"text": lines})
-
-    raise ValueError(f"Unsupported file type: {ext}")
 
 
 def build_tokenizer(model_name: str):
@@ -168,60 +104,22 @@ def tokenize_batch(
     tokenizer,
     max_length: int,
     truncation: bool,
-    padding: bool,
+    padding: bool | str,
 ):
+    if isinstance(padding, bool):
+        pad_arg = "max_length" if padding else False
+    else:
+        pad_arg = padding
+
     return tokenizer(
         examples["__text__"],
         max_length=max_length,
         truncation=truncation,
-        padding="max_length" if padding else False,
+        padding=pad_arg,
     )
 
 
-def save_summary(
-    output_dir: str,
-    file_path: str,
-    model_name: str,
-    text_columns: List[str],
-    total_rows: int,
-    kept_rows: int,
-    max_length: int,
-    truncation: bool,
-    padding: bool,
-) -> None:
-    summary = {
-        "input_file": file_path,
-        "model_name": model_name,
-        "text_columns": text_columns,
-        "total_rows": total_rows,
-        "kept_rows": kept_rows,
-        "dropped_rows": total_rows - kept_rows,
-        "max_length": max_length,
-        "truncation": truncation,
-        "padding": padding,
-    }
 
-    os.makedirs(output_dir, exist_ok=True)
-    summary_path = Path(output_dir) / "tokenization_summary.json"
-    with open(summary_path, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2, ensure_ascii=False)
-
-    logger.info("Summary saved to %s", summary_path)
-
-
-def maybe_split_dataset(df: pd.DataFrame, test_size: float, seed: int):
-    if test_size <= 0 or test_size >= 1:
-        return df, None
-
-    if train_test_split is None:
-        raise RuntimeError("scikit-learn is required for dataset split.")
-
-    train_df, val_df = train_test_split(df, test_size=test_size, random_state=seed, shuffle=True)
-    return train_df.reset_index(drop=True), val_df.reset_index(drop=True)
-
-
-def dataframe_to_dataset(df: pd.DataFrame) -> Dataset:
-    return Dataset.from_pandas(df, preserve_index=False)
 
 
 def save_dataset(ds: Dataset, output_path: str) -> None:
@@ -248,6 +146,15 @@ def infer_text_columns_from_dataset(dataset) -> List[str]:
     fuzzy = [c for c in available if any(c.lower().endswith(suffix) for suffix in ("text", "input", "prompt", "question", "message"))]
     if fuzzy:
         return [fuzzy[0]]
+        
+    try:
+        df_sample = dataset.select(range(min(len(dataset), 50))).to_pandas()
+        inferred = infer_text_columns(df_sample)
+        if inferred:
+            return inferred
+    except Exception:
+        pass
+        
     raise ValueError(
         "Could not infer a text column from dataset splits. "
         "Pass text_columns explicitly to the tokenizer."
@@ -280,21 +187,37 @@ def tokenize_dataset_dict(
     text_columns: Optional[List[str]] = None,
     max_length: int = 512,
     truncation: bool = True,
-    padding: bool = True,
+    padding: bool | str = True,
     output_dir: Optional[str] = None,
 ):
-    from datasets import DatasetDict
+    from datasets import Dataset, DatasetDict
 
     if text_columns is not None and len(text_columns) == 0:
         text_columns = None
 
+    is_single_dataset = False
     if isinstance(dataset, DatasetDict):
         ds_dict = dataset
+    elif isinstance(dataset, Dataset):
+        ds_dict = DatasetDict({"train": dataset})
+        is_single_dataset = True
+    elif isinstance(dataset, pd.DataFrame):
+        ds_dict = DatasetDict({"train": Dataset.from_pandas(dataset, preserve_index=False)})
+        is_single_dataset = True
+    elif isinstance(dataset, (list, dict)):
+        try:
+            df = pd.DataFrame(dataset)
+            ds_dict = DatasetDict({"train": Dataset.from_pandas(df, preserve_index=False)})
+            is_single_dataset = True
+        except Exception as e:
+            raise TypeError(f"Could not convert input {type(dataset)} to Dataset: {e}")
     else:
-        raise TypeError("tokenize_dataset_dict expects a DatasetDict")
+        raise TypeError("tokenize_dataset_dict expects a Dataset, DatasetDict, DataFrame, list, or dict")
 
+    # Get split key to infer columns
+    split_key = "train" if "train" in ds_dict else next(iter(ds_dict.keys()))
     if text_columns is None:
-        text_columns = infer_text_columns_from_dataset(ds_dict["train"])
+        text_columns = infer_text_columns_from_dataset(ds_dict[split_key])
 
     tokenizer = build_tokenizer(model_name)
 
@@ -329,154 +252,8 @@ def tokenize_dataset_dict(
     if output_dir is not None:
         save_dataset(tokenized_dataset, output_dir)
 
+    if is_single_dataset:
+        return tokenized_dataset["train"]
     return tokenized_dataset
 
-
-# -----------------------------
-# Main pipeline
-# -----------------------------
-@dataclass
-class Config:
-    input_file: str
-    model_name: str
-    output_dir: str
-    text_columns: Optional[List[str]]
-    max_length: int
-    truncation: bool
-    padding: bool
-    test_size: float
-    seed: int
-    infer_text: bool
-
-
-def tokenize_dataset(config: Config) -> None:
-    df = load_input_file(config.input_file)
-
-    if df.empty:
-        raise ValueError("Input dataset is empty.")
-
-    total_rows = len(df)
-    logger.info("Rows loaded: %d", total_rows)
-    logger.info("Columns: %s", list(df.columns))
-
-    if config.text_columns:
-        missing = [c for c in config.text_columns if c not in df.columns]
-        if missing:
-            raise ValueError(f"Text columns not found in file: {missing}")
-        text_columns = config.text_columns
-    else:
-        text_columns = infer_text_columns(df)
-        if not text_columns:
-            if "text" in df.columns:
-                text_columns = ["text"]
-            else:
-                raise ValueError(
-                    "Could not infer text columns. "
-                    "Pass --text_columns manually."
-                )
-
-    logger.info("Using text columns: %s", text_columns)
-
-    df = combine_text_columns(df, text_columns)
-    kept_rows = len(df)
-
-    if kept_rows == 0:
-        raise ValueError("No valid text rows found after cleaning.")
-
-    logger.info("Valid text rows: %d", kept_rows)
-
-    tokenizer = build_tokenizer(config.model_name)
-
-    # Train/val split if requested
-    train_df, val_df = maybe_split_dataset(df, config.test_size, config.seed)
-
-    def tokenize_df(dataframe: pd.DataFrame) -> Dataset:
-        ds = dataframe_to_dataset(dataframe)
-        tokenized = ds.map(
-            lambda x: tokenize_batch(
-                x,
-                tokenizer=tokenizer,
-                max_length=config.max_length,
-                truncation=config.truncation,
-                padding=config.padding,
-            ),
-            batched=True,
-            desc="Tokenizing",
-        )
-        # Keep original text if useful; remove if you want pure tensor-like output
-        return tokenized
-
-    os.makedirs(config.output_dir, exist_ok=True)
-
-    if val_df is not None:
-        train_tok = tokenize_df(train_df)
-        val_tok = tokenize_df(val_df)
-
-        dd = DatasetDict({"train": train_tok, "validation": val_tok})
-        dd.save_to_disk(config.output_dir)
-        logger.info("DatasetDict saved to %s", config.output_dir)
-    else:
-        tokenized = tokenize_df(df)
-        save_dataset(tokenized, config.output_dir)
-
-    save_summary(
-        output_dir=config.output_dir,
-        file_path=config.input_file,
-        model_name=config.model_name,
-        text_columns=text_columns,
-        total_rows=total_rows,
-        kept_rows=kept_rows,
-        max_length=config.max_length,
-        truncation=config.truncation,
-        padding=config.padding,
-    )
-
-
-def parse_args() -> Config:
-    parser = argparse.ArgumentParser(description="Production-grade dataset tokenizer")
-    parser.add_argument("--input_file", required=True, help="Path to dataset file")
-    parser.add_argument("--model_name", required=True, help="Hugging Face model/tokenizer name or local path")
-    parser.add_argument("--output_dir", required=True, help="Directory to save tokenized output")
-    parser.add_argument("--text_columns", default=None, help="Comma-separated text columns")
-    parser.add_argument("--max_length", type=int, default=512)
-    parser.add_argument("--truncation", type=str, default="true")
-    parser.add_argument("--padding", type=str, default="false")
-    parser.add_argument("--test_size", type=float, default=0.0, help="Optional validation split ratio")
-    parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--infer_text", type=str, default="true")
-    parser.add_argument("--log_level", type=str, default="INFO")
-
-    args = parser.parse_args()
-    setup_logging(args.log_level)
-
-    text_columns = None
-    if args.text_columns and args.text_columns.strip():
-        text_columns = [c.strip() for c in args.text_columns.split(",") if c.strip()]
-
-    return Config(
-        input_file=args.input_file,
-        model_name=args.model_name,
-        output_dir=args.output_dir,
-        text_columns=text_columns,
-        max_length=args.max_length,
-        truncation=args.truncation.lower() in {"true", "1", "yes", "y"},
-        padding=args.padding.lower() in {"true", "1", "yes", "y"},
-        test_size=args.test_size,
-        seed=args.seed,
-        infer_text=args.infer_text.lower() in {"true", "1", "yes", "y"},
-    )
-
-
-def main() -> int:
-    try:
-        config = parse_args()
-        tokenize_dataset(config)
-        logger.info("Done.")
-        return 0
-    except Exception as e:
-        logger.exception("Tokenization failed: %s", e)
-        return 1
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+

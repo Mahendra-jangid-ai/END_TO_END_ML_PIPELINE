@@ -17,7 +17,6 @@ from typing import Any
 from omegaconf import DictConfig, OmegaConf
 
 from src.data.loader import load_dataset
-from src.data.task_detector import TaskDetector
 from src.tokenization.tokenizer import tokenize_dataset_dict
 from src.utils.common import ensure_dir, get_logger, set_seed
 
@@ -166,20 +165,7 @@ def save_dataset_splits(ds: Any, save_dir: str) -> dict:
     return report
 
 
-def _validate_manual_label_column(ds: Any, label_column: str | None) -> None:
-    """Validate manual label column exists in loaded dataset."""
-    if not label_column:
-        return
 
-    train_split = ds.get("train") if hasattr(ds, "get") else None
-    if train_split is None:
-        return
-
-    columns = list(train_split.column_names)
-    if label_column not in columns:
-        raise ValueError(
-            f"dataset.label_column='{label_column}' not found in dataset columns: {columns}"
-        )
 
 
 def save_task_info(task_info: dict[str, Any], save_dir: str) -> dict[str, str]:
@@ -223,36 +209,173 @@ def main(cfg: DictConfig | None = None) -> int:
 
     logger.info("Configuration:\n" + OmegaConf.to_yaml(cfg))
 
-    ds = load_dataset(cfg)
+    ds_raw = load_dataset(cfg)
 
-    task_info: dict[str, Any]
-    if cfg.task.name:
-        logger.info(f"Task provided in config: {cfg.task.name} (skipping task auto-detection)")
-        _validate_manual_label_column(ds, cfg.dataset.label_column)
-        logger.info("Manual task + label_column mode: preserving all columns in saved splits")
-        task_info = {
-            "task": cfg.task.name,
-            "text_column": cfg.dataset.text_column,
-            "label_column": cfg.dataset.label_column,
-            "input_column": cfg.dataset.input_column,
-            "output_column": cfg.dataset.output_column,
-            "instruction_column": cfg.dataset.instruction_column,
-            "num_labels": cfg.task.num_labels,
-            "label2id": cfg.task.label2id,
-            "id2label": cfg.task.id2label,
-            "problem_type": cfg.task.problem_type or cfg.task.name,
-        }
+    # Print loaded dataset columns
+    print("\n" + "="*50)
+    print("DATASET LOADED SUCCESSFULLY")
+    print(f"File: {cfg.dataset.name}")
+    print(f"Available Columns: {list(ds_raw.columns)}")
+    print("="*50 + "\n")
+    
+    # 1. Ask user which columns to keep as input features
+    while True:
+        text_cols_input = input("Enter text feature column(s) to keep (comma-separated, e.g. text or review,title): ").strip()
+        if not text_cols_input:
+            print("Error: Input column name cannot be empty. Please try again.")
+            continue
+        text_columns = [col.strip() for col in text_cols_input.split(",") if col.strip()]
+        invalid_cols = [col for col in text_columns if col not in ds_raw.columns]
+        if invalid_cols:
+            print(f"Error: Column(s) {invalid_cols} not found in dataset. Please try again.")
+            continue
+        break
+        
+    # 2. Ask user which column is the target/output column
+    while True:
+        label_column = input("Enter target/output column (e.g. label or rating): ").strip()
+        if not label_column:
+            print("Error: Target column name cannot be empty. Please try again.")
+            continue
+        if label_column not in ds_raw.columns:
+            print(f"Error: Column '{label_column}' not found in dataset. Please try again.")
+            continue
+        break
+
+    # 3. Ask user for task type: classification or regression
+    while True:
+        task_choice = input("Select NLP task type:\n  1. Classification\n  2. Regression\nEnter choice (1 or 2): ").strip()
+        if task_choice == "1":
+            task_name = "classification"
+            break
+        elif task_choice == "2":
+            task_name = "regression"
+            break
+        else:
+            print("Error: Invalid choice. Please enter 1 or 2.")
+
+    # 4. Suggest models in lightweight to heavyweight order and ask user to select/type one
+    print("\n" + "-"*50)
+    print(f"MODEL SUGGESTIONS FOR {task_name.upper()} (Lightweight to Heavyweight):")
+    suggestions = [
+        "distilbert-base-uncased  (Lightweight, ~66M parameters)",
+        "bert-base-uncased        (Medium, ~110M parameters)",
+        "roberta-base             (Medium, ~125M parameters)",
+        "microsoft/deberta-v3-base (Heavyweight, ~86M parameters but advanced architecture)"
+    ]
+    for idx, sug in enumerate(suggestions, 1):
+        print(f"  {idx}. {sug}")
+    print("-"*50)
+    
+    while True:
+        model_choice = input("Select model (1-4) or type custom HF model path (e.g. google/electra-base): ").strip()
+        if model_choice in ["1", "2", "3", "4"]:
+            idx = int(model_choice) - 1
+            model_name = suggestions[idx].split()[0]
+            break
+        elif model_choice:
+            model_name = model_choice
+            break
+        else:
+            print("Error: Model selection cannot be empty.")
+
+    print(f"\nProceeding with model: '{model_name}' on task '{task_name}'...\n")
+
+    # 5. Populate task_info
+    task_info = {
+        "task": task_name,
+        "text_column": text_columns[0],
+        "label_column": label_column,
+        "text_columns": text_columns,
+        "label_columns": [label_column],
+        "sub_task": task_name,
+        "problem_type": task_name,
+        "detected_columns": {
+            "text": text_columns,
+            "label": [label_column]
+        },
+        "input_column": text_columns[0],
+        "output_column": label_column,
+        "instruction_column": None,
+        "context_column": None,
+    }
+
+    # Calculate class details if classification
+    num_labels, label2id, id2label = None, None, None
+    if task_name == "classification":
+        unique_labels = sorted(list(ds_raw[label_column].dropna().unique()))
+        num_labels = len(unique_labels)
+        label2id = {str(lbl): idx for idx, lbl in enumerate(unique_labels)}
+        id2label = {idx: str(lbl) for idx, lbl in enumerate(unique_labels)}
+
+    task_info["num_labels"] = num_labels
+    task_info["label2id"] = label2id
+    task_info["id2label"] = id2label
+
+    # Update configs
+    cfg.task.name = task_name
+    cfg.task.num_labels = num_labels
+    cfg.task.label2id = label2id
+    cfg.task.id2label = id2label
+    cfg.task.problem_type = task_name
+    
+    cfg.dataset.text_column = text_columns[0]
+    cfg.dataset.label_column = label_column
+    cfg.tokenizer.model_name = model_name
+
+    # Connect to universal preprocessor and splits splitting
+    from datasets import Dataset, DatasetDict
+    from src.preprocessing.preprocessor import preprocess_dataset
+    
+    # Convert raw dataframe to HuggingFace Dataset
+    hf_ds = Dataset.from_pandas(ds_raw, preserve_index=False)
+    
+    # Split dataset based on val_size and test_size
+    test_size = float(cfg.dataset.test_size)
+    val_size = float(cfg.dataset.val_size)
+    total_eval_size = test_size + val_size
+    
+    if total_eval_size > 0 and total_eval_size < 1.0:
+        split1 = hf_ds.train_test_split(test_size=total_eval_size, seed=int(cfg.dataset.seed))
+        train_ds = split1["train"]
+        eval_ds = split1["test"]
+        
+        if val_size > 0 and test_size > 0:
+            val_ratio = val_size / total_eval_size
+            split2 = eval_ds.train_test_split(test_size=1.0 - val_ratio, seed=int(cfg.dataset.seed))
+            val_ds = split2["train"]
+            test_ds = split2["test"]
+        elif val_size > 0:
+            val_ds = eval_ds
+            test_ds = None
+        else:
+            val_ds = None
+            test_ds = eval_ds
     else:
-        detector = TaskDetector()
-        task_info = detector.detect(ds, cfg)
-        logger.info(f"Detected task: {task_info.get('task')}")
-
-    # Keep final task details in config for downstream pipeline stages.
-    cfg.task.name = task_info.get("task")
-    cfg.task.num_labels = task_info.get("num_labels")
-    cfg.task.label2id = task_info.get("label2id")
-    cfg.task.id2label = task_info.get("id2label")
-    cfg.task.problem_type = task_info.get("problem_type")
+        train_ds = hf_ds
+        val_ds = None
+        test_ds = None
+        
+    ds_splits = {"train": train_ds}
+    if val_ds is not None:
+        ds_splits["validation"] = val_ds
+    if test_ds is not None:
+        ds_splits["test"] = test_ds
+        
+    ds = DatasetDict(ds_splits)
+    
+    # Run preprocessor
+    cleaned_ds, cleaning_report, quality_report, row_level_audit, issue_summary, warnings, recommendations = preprocess_dataset(ds, cfg, task_info=task_info)
+    
+    # Attach reports to the DatasetDict object so train.py can write them to report
+    cleaned_ds.cleaning_report = cleaning_report
+    cleaned_ds.quality_report = quality_report
+    cleaned_ds.row_level_audit = row_level_audit
+    cleaned_ds.issue_summary = issue_summary
+    cleaned_ds.warnings = warnings
+    cleaned_ds.recommendations = recommendations
+    
+    ds = cleaned_ds
 
     if cfg.dataset.save_after_load:
         dataset_report = save_dataset_splits(ds, cfg.dataset.save_dir)

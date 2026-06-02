@@ -1,0 +1,143 @@
+1. Data Loading
+   └── CSV / JSON / Parquet / Database / HuggingFace Dataset
+
+2. Dataset Understanding
+   └── Task identify karo
+       • Classification
+       • Regression
+       • NER
+       • QA
+       • Summarization
+       • Instruction Tuning
+
+3. Schema Mapping
+   └── Dataset ke columns ko common schema me map karo
+       Example:
+       review → text
+       sentiment → label
+
+4. Data Validation
+   └── Null values check
+   └── Empty text check
+   └── Duplicate records check
+   └── Invalid labels check
+   └── Data type validation
+
+5. Data Cleaning
+   └── Remove nulls
+   └── Remove duplicates
+   └── Remove HTML/noise
+   └── Normalize text
+   └── Strip spaces
+
+6. Exploratory Data Analysis (EDA)
+   └── Dataset size
+   └── Label distribution
+   └── Text length analysis
+   └── Class imbalance analysis
+
+7. Dataset Splitting
+   └── Train Set
+   └── Validation Set
+   └── Test Set
+
+8. Prompt/Task Formatting
+   └── Convert dataset into model-ready format
+       • Classification Prompt
+       • Regression Prompt
+       • Chat Format
+       • Instruction Format
+
+9. Tokenizer Loading
+   └── Load tokenizer of selected model
+       (Qwen/Llama/Gemma/Mistral)
+
+10. Sequence Length Analysis
+    └── Analyze token lengths
+    └── Decide max_seq_length
+
+11. Tokenization
+    └── Text → Tokens
+    └── Generate:
+        • input_ids
+        • attention_mask
+        • labels
+
+12. Dataset Transformation
+    └── Convert into HuggingFace Dataset
+    └── Create train/val/test tokenized datasets
+
+13. Model Loading
+    └── Load Unsloth Base Model
+
+14. PEFT/LoRA Configuration
+    └── Configure:
+        • r
+        • alpha
+        • dropout
+        • target_modules
+
+15. Cross Validation Setup
+    └── Classification → StratifiedKFold
+    └── Regression → KFold
+
+16. Hyperparameter Search Setup
+    └── Define search space
+        • learning_rate
+        • batch_size
+        • epochs
+        • lora_r
+        • weight_decay
+
+17. Training Loop
+    └── For each hyperparameter combination
+          └── For each fold
+                └── Train model
+                └── Validate model
+
+18. Evaluation
+    └── Classification:
+        • Accuracy
+        • Precision
+        • Recall
+        • F1
+        • ROC-AUC
+
+    └── Regression:
+        • MAE
+        • MSE
+        • RMSE
+        • R²
+
+19. MLflow Logging
+    └── Log Parameters
+    └── Log Metrics
+    └── Log Artifacts
+    └── Log Model
+
+20. Best Model Selection
+    └── Compare CV scores
+    └── Select best hyperparameters
+
+21. Final Retraining
+    └── Train best configuration on
+        Train + Validation data
+
+22. Final Test Evaluation
+    └── Evaluate on unseen test set
+
+23. Model Saving
+    └── Save:
+        • Model
+        • Tokenizer
+        • Config
+        • Metrics
+
+24. Experiment Report Generation
+    └── CV Results
+    └── Best Parameters
+    └── Final Metrics
+
+25. Deployment Ready Artifact
+    └── Final model package
+    └── Inference configuration
