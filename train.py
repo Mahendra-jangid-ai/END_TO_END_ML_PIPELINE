@@ -220,7 +220,7 @@ def main(cfg: DictConfig | None = None) -> int:
     
     # 1. Ask user which columns to keep as input features
     while True:
-        text_cols_input = input("Enter text feature column(s) to keep (comma-separated, e.g. text or review,title): ").strip()
+        text_cols_input = input("Enter input text column(s) (comma-separated, e.g. text or review,title): ").strip()
         if not text_cols_input:
             print("Error: Input column name cannot be empty. Please try again.")
             continue
@@ -294,7 +294,7 @@ def main(cfg: DictConfig | None = None) -> int:
             "text": text_columns,
             "label": [label_column]
         },
-        "input_column": text_columns[0],
+        "input_column": ", ".join(text_columns),
         "output_column": label_column,
         "instruction_column": None,
         "context_column": None,
@@ -391,22 +391,41 @@ def main(cfg: DictConfig | None = None) -> int:
         tokenizer_model_name = cfg.tokenizer.model_name or getattr(cfg.model, "name", None)
         if tokenizer_model_name:
             tokenizer_output_dir = Path(cfg.dataset.save_dir) / "tokenized"
-            text_columns = []
-            if cfg.dataset.text_column:
-                text_columns = [cfg.dataset.text_column]
-            elif task_info.get("input_column"):
-                text_columns = [task_info.get("input_column")]
+            
+            # Use all input columns specified by the user
+            tok_text_cols = task_info.get("text_columns", [])
+            if not tok_text_cols:
+                if cfg.dataset.text_column:
+                    tok_text_cols = [cfg.dataset.text_column]
+                elif task_info.get("input_column"):
+                    tok_text_cols = [task_info.get("input_column")]
+
+            # Remove all other columns from ds before tokenizing to keep only input and output columns
+            all_cols = ds["train"].column_names
+            cols_to_keep = tok_text_cols + [label_column]
+            cols_to_remove = [c for c in all_cols if c not in cols_to_keep]
+            if cols_to_remove:
+                old_ds = ds
+                ds = ds.remove_columns(cols_to_remove)
+                # Preserve cleaning/quality reports and metrics attributes
+                if hasattr(old_ds, "cleaning_report"):
+                    ds.cleaning_report = old_ds.cleaning_report
+                    ds.quality_report = old_ds.quality_report
+                    ds.row_level_audit = old_ds.row_level_audit
+                    ds.issue_summary = old_ds.issue_summary
+                    ds.warnings = old_ds.warnings
+                    ds.recommendations = old_ds.recommendations
 
             logger.info(
                 "Tokenizing dataset splits with tokenizer model=%s, text_columns=%s",
                 tokenizer_model_name,
-                text_columns,
+                tok_text_cols,
             )
 
             tokenized_ds = tokenize_dataset_dict(
                 ds,
                 model_name=tokenizer_model_name,
-                text_columns=text_columns or None,
+                text_columns=tok_text_cols or None,
                 max_length=int(cfg.tokenizer.max_length) if cfg.tokenizer.max_length is not None else 512,
                 truncation=bool(cfg.tokenizer.truncation),
                 padding=bool(cfg.tokenizer.padding),
