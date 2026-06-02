@@ -18,6 +18,7 @@ from omegaconf import DictConfig, OmegaConf
 
 from src.data.loader import load_dataset
 from src.data.task_detector import TaskDetector
+from src.tokenization.tokenizer import tokenize_dataset_dict
 from src.utils.common import ensure_dir, get_logger, set_seed
 
 logger = get_logger(__name__)
@@ -46,6 +47,12 @@ DEFAULT_CFG = OmegaConf.create({
         "label2id": None,
         "id2label": None,
         "problem_type": None,
+    },
+    "tokenizer": {
+        "model_name": None,
+        "max_length": 512,
+        "truncation": True,
+        "padding": True,
     },
 })
 
@@ -257,6 +264,37 @@ def main(cfg: DictConfig | None = None) -> int:
             "task_info": task_info,
             "artifacts": task_paths,
         }
+
+        tokenizer_model_name = cfg.tokenizer.model_name or getattr(cfg.model, "name", None)
+        if tokenizer_model_name:
+            tokenizer_output_dir = Path(cfg.dataset.save_dir) / "tokenized"
+            text_columns = []
+            if cfg.dataset.text_column:
+                text_columns = [cfg.dataset.text_column]
+            elif task_info.get("input_column"):
+                text_columns = [task_info.get("input_column")]
+
+            logger.info(
+                "Tokenizing dataset splits with tokenizer model=%s, text_columns=%s",
+                tokenizer_model_name,
+                text_columns,
+            )
+
+            tokenized_ds = tokenize_dataset_dict(
+                ds,
+                model_name=tokenizer_model_name,
+                text_columns=text_columns or None,
+                max_length=int(cfg.tokenizer.max_length) if cfg.tokenizer.max_length is not None else 512,
+                truncation=bool(cfg.tokenizer.truncation),
+                padding=bool(cfg.tokenizer.padding),
+                output_dir=str(tokenizer_output_dir),
+            )
+
+            report["tokenized_dataset"] = {
+                "path": str(tokenizer_output_dir),
+                "splits": list(tokenized_ds.keys()),
+            }
+
         if hasattr(ds, "cleaning_report"):
             report["cleaning_report"] = ds.cleaning_report
             report["quality_report"] = ds.quality_report
@@ -268,6 +306,8 @@ def main(cfg: DictConfig | None = None) -> int:
         report_path = save_load_report(report, cfg.dataset.save_dir)
 
         logger.info(f"Saved dataset splits to: {Path(cfg.dataset.save_dir)}")
+        if cfg.tokenizer.model_name:
+            logger.info(f"Saved tokenized dataset to: {tokenizer_output_dir}")
         logger.info(f"Task file: {task_paths['task_name_file']}")
         logger.info(f"Task metadata: {task_paths['task_info_json']}")
         logger.info(f"Report: {report_path}")

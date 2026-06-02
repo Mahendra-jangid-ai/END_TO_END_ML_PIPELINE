@@ -187,6 +187,32 @@ def load_dataset(cfg: DictConfig):
 # Post-processing: splits + sampling
 # ---------------------------------------------------------------------------
 
+def _safe_train_test_split(dataset, test_size, seed, description: str | None = None):
+    if test_size is None or test_size <= 0:
+        return None
+
+    if len(dataset) < 2:
+        logger.warning(
+            "Skipping %s split: only %d row(s) available, not enough data for test_size=%s",
+            description or "dataset",
+            len(dataset),
+            test_size,
+        )
+        return None
+
+    try:
+        return dataset.train_test_split(test_size=test_size, seed=seed)
+    except ValueError as exc:
+        logger.warning(
+            "Unable to split %s with n=%d and test_size=%s: %s",
+            description or "dataset",
+            len(dataset),
+            test_size,
+            exc,
+        )
+        return None
+
+
 def _finalize(ds, cfg: DictConfig):
     """Ensure train/val/test splits exist; apply max_samples."""
     from datasets import DatasetDict, Dataset
@@ -226,41 +252,75 @@ def _finalize(ds, cfg: DictConfig):
         logger.warning(f"No 'train' split found; using '{first_split}' as train")
         ds = DatasetDict({"train": ds[first_split]})
 
+    # Apply max_samples to train split BEFORE creating val/test splits
+    if max_samples is not None and "train" in ds:
+        if len(ds["train"]) > max_samples:
+            logger.info(f"Limiting dataset to {max_samples} samples (from {len(ds['train'])})")
+            ds["train"] = ds["train"].select(range(max_samples))
+
     if "test" not in ds and "validation" not in ds:
         logger.info("Creating train/val/test splits automatically")
-        split = ds["train"].train_test_split(test_size=test_size + val_size, seed=seed)
-        val_ratio = val_size / (test_size + val_size)
-        val_test = split["test"].train_test_split(test_size=1 - val_ratio, seed=seed)
-        ds = DatasetDict({
-            "train": split["train"],
-            "validation": val_test["train"],
-            "test": val_test["test"],
-        })
+        split = _safe_train_test_split(ds["train"], test_size=test_size + val_size, seed=seed, description="train")
+        if split is not None:
+            val_ratio = val_size / (test_size + val_size) if (test_size + val_size) > 0 else 0.0
+            if val_ratio == 0.0:
+                ds = DatasetDict({
+                    "train": split["train"],
+                    "test": split["test"],
+                })
+            else:
+                val_test = _safe_train_test_split(
+                    split["test"],
+                    test_size=1 - val_ratio,
+                    seed=seed,
+                    description="validation/test",
+                )
+                if val_test is not None:
+                    ds = DatasetDict({
+                        "train": split["train"],
+                        "validation": val_test["train"],
+                        "test": val_test["test"],
+                    })
+                else:
+                    if len(split["test"]) > 0:
+                        logger.warning(
+                            "Unable to split held-out set into validation and test. Using held-out set as validation only."
+                        )
+                        ds = DatasetDict({
+                            "train": split["train"],
+                            "validation": split["test"],
+                        })
+                    else:
+                        ds = DatasetDict({"train": split["train"]})
+        else:
+            logger.warning("Skipping automatic train/val/test split because dataset is too small.")
     elif "validation" not in ds and "test" in ds:
         logger.info("Creating validation split from train")
-        split = ds["train"].train_test_split(test_size=val_size, seed=seed)
-        ds = DatasetDict({
-            "train": split["train"],
-            "validation": split["test"],
-            "test": ds["test"],
-        })
+        split = _safe_train_test_split(ds["train"], test_size=val_size, seed=seed, description="train/validation")
+        if split is not None:
+            ds = DatasetDict({
+                "train": split["train"],
+                "validation": split["test"],
+                "test": ds["test"],
+            })
+        else:
+            logger.warning("Skipping automatic validation split because train split is too small.")
     elif "test" not in ds and "validation" in ds:
         logger.info("Creating test split from validation to avoid val/test leakage")
-        val_test = ds["validation"].train_test_split(test_size=0.5, seed=seed)
-        ds = DatasetDict({
-            "train": ds["train"],
-            "validation": val_test["train"],
-            "test": val_test["test"],
-        })
+        val_test = _safe_train_test_split(ds["validation"], test_size=0.5, seed=seed, description="validation/test")
+        if val_test is not None:
+            ds = DatasetDict({
+                "train": ds["train"],
+                "validation": val_test["train"],
+                "test": val_test["test"],
+            })
+        else:
+            logger.warning("Skipping automatic test split because validation split is too small.")
 
-    # Apply max_samples
-    if max_samples is not None:
-        for split in ds:
-            if len(ds[split]) > max_samples:
-                ds[split] = ds[split].select(range(max_samples))
 
     for split, d in ds.items():
         logger.info(f"  {split}: {len(d):,} samples")
+
 
     if cleaning_report is not None:
         ds.cleaning_report = cleaning_report
