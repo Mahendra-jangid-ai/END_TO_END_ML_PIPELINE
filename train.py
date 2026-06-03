@@ -53,6 +53,10 @@ DEFAULT_CFG = OmegaConf.create({
         "truncation": True,
         "padding": True,
     },
+    "formatter": {
+        "type": None,
+        "instruction": None,
+    },
 })
 
 
@@ -377,6 +381,78 @@ def main(cfg: DictConfig | None = None) -> int:
     
     ds = cleaned_ds
 
+    # 8. Prompt/Task Formatting
+    from src.preprocessing.prompt_formatter import format_dataset
+
+    # Determine formatting type
+    formatter_type = cfg.get("formatter", {}).get("type")
+    custom_instruction = cfg.get("formatter", {}).get("instruction")
+
+    if not formatter_type:
+        print("\n" + "="*50)
+        print("PROMPT / TASK FORMATTING SELECTION")
+        print("Convert your dataset columns into a model-ready format:")
+        print("  1. Classification Prompt (Wraps input with class instructions)")
+        print("  2. Regression Prompt (Wraps input with regression instructions)")
+        print("  3. Chat Format (Wraps input in a conversational user/assistant style)")
+        print("  4. Instruction Format (Wraps input in instruction-input-response template)")
+        print("  5. Skip formatting (Pass raw text directly)")
+        print("="*50 + "\n")
+        
+        while True:
+            fmt_choice = input("Enter choice (1-5): ").strip()
+            if fmt_choice == "1":
+                formatter_type = "classification"
+                break
+            elif fmt_choice == "2":
+                formatter_type = "regression"
+                break
+            elif fmt_choice == "3":
+                formatter_type = "chat"
+                break
+            elif fmt_choice == "4":
+                formatter_type = "instruction"
+                break
+            elif fmt_choice == "5":
+                formatter_type = None
+                break
+            else:
+                print("Error: Invalid choice. Please enter 1 to 5.")
+                
+        if formatter_type == "instruction":
+            inst_choice = input("Enter custom instruction (or press Enter for default): ").strip()
+            if inst_choice:
+                custom_instruction = inst_choice
+
+    if formatter_type:
+        logger.info(f"Applying prompt formatting: '{formatter_type}'")
+        old_ds = ds
+        ds = format_dataset(ds, formatter_type, task_info, custom_instruction)
+        
+        # Preserve cleaning/quality reports and metrics attributes on the new DatasetDict
+        if hasattr(old_ds, "cleaning_report"):
+            ds.cleaning_report = old_ds.cleaning_report
+            ds.quality_report = old_ds.quality_report
+            ds.row_level_audit = old_ds.row_level_audit
+            ds.issue_summary = old_ds.issue_summary
+            ds.warnings = old_ds.warnings
+            ds.recommendations = old_ds.recommendations
+
+        # Save the formatted dataset as CSV files before tokenization
+        save_dir_path = Path(cfg.dataset.save_dir)
+        save_dir_path.mkdir(parents=True, exist_ok=True)
+        
+        for split_name, split_ds in ds.items():
+            csv_path = save_dir_path / f"formatted_{split_name}.csv"
+            df_formatted = split_ds.to_pandas()
+            df_formatted.to_csv(csv_path, index=False)
+            logger.info(f"Saved formatted '{split_name}' dataset as CSV to: {csv_path}")
+
+        # Update columns in task_info and cfg so that tokenizer tokenizes the formatted prompt column
+        task_info["text_columns"] = ["formatted_text"]
+        task_info["text_column"] = "formatted_text"
+        cfg.dataset.text_column = "formatted_text"
+
     if cfg.dataset.save_after_load:
         dataset_report = save_dataset_splits(ds, cfg.dataset.save_dir)
         task_paths = save_task_info(task_info, cfg.dataset.save_dir)
@@ -403,6 +479,9 @@ def main(cfg: DictConfig | None = None) -> int:
             # Remove all other columns from ds before tokenizing to keep only input and output columns
             all_cols = ds["train"].column_names
             cols_to_keep = tok_text_cols + [label_column]
+            for col_opt in ["formatted_target", "formatted_full", "messages", "messages_json"]:
+                if col_opt in all_cols:
+                    cols_to_keep.append(col_opt)
             cols_to_remove = [c for c in all_cols if c not in cols_to_keep]
             if cols_to_remove:
                 old_ds = ds

@@ -1,35 +1,4 @@
-#!/usr/bin/env python3
-"""
-Production-grade dataset tokenizer
-
-Supports:
-- .csv
-- .json / .jsonl
-- .txt
-- .parquet
-- .xlsx
-
-Features:
-- Auto-detects text columns
-- Combines multiple text fields
-- Tokenizes with any Hugging Face tokenizer
-- Saves tokenized dataset and summary
-- Robust logging and error handling
-
-Usage:
-python tokenize_dataset.py \
-    --input_file data.csv \
-    --model_name bert-base-uncased \
-    --output_dir आउटपुट/
-
-Optional:
---text_columns col1,col2
---max_length 512
---truncation true
---padding false
-"""
-
-from __future__ import annotations
+# from __future__ import annotations
 
 import json
 import logging
@@ -45,9 +14,6 @@ from transformers import AutoTokenizer
 logger = logging.getLogger(__name__)
 
 
-# -----------------------------
-# Helpers
-# -----------------------------
 
 
 
@@ -60,11 +26,6 @@ def safe_str(x) -> str:
 
 
 def infer_text_columns(df: pd.DataFrame, threshold: float = 0.55) -> List[str]:
-    """
-    Infer text-like columns:
-    - object/string columns
-    - mixed columns that mostly contain strings
-    """
     text_cols = []
     for col in df.columns:
         series = df[col]
@@ -77,7 +38,6 @@ def infer_text_columns(df: pd.DataFrame, threshold: float = 0.55) -> List[str]:
             if text_ratio >= threshold and avg_len >= 1:
                 text_cols.append(col)
         elif pd.api.types.is_numeric_dtype(series):
-            # numeric columns are generally not primary text columns
             continue
     return text_cols
 
@@ -92,7 +52,6 @@ def build_tokenizer(model_name: str):
     logger.info("Loading tokenizer: %s", model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
 
-    # Some tokenizers have no pad token by default
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token if tokenizer.eos_token else tokenizer.sep_token
 
@@ -214,7 +173,6 @@ def tokenize_dataset_dict(
     else:
         raise TypeError("tokenize_dataset_dict expects a Dataset, DatasetDict, DataFrame, list, or dict")
 
-    # Get split key to infer columns
     split_key = "train" if "train" in ds_dict else next(iter(ds_dict.keys()))
     if text_columns is None:
         text_columns = infer_text_columns_from_dataset(ds_dict[split_key])
@@ -256,4 +214,4 @@ def tokenize_dataset_dict(
         return tokenized_dataset["train"]
     return tokenized_dataset
 
-
+

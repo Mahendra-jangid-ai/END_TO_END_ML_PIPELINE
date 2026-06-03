@@ -1,0 +1,39 @@
+{
+  "task": "classification",
+  "text_column": "formatted_text",
+  "label_column": "sentiment",
+  "text_columns": [
+    "formatted_text"
+  ],
+  "label_columns": [
+    "sentiment"
+  ],
+  "sub_task": "classification",
+  "problem_type": "classification",
+  "detected_columns": {
+    "text": [
+      "game",
+      "text"
+    ],
+    "label": [
+      "sentiment"
+    ]
+  },
+  "input_column": "game, text",
+  "output_column": "sentiment",
+  "instruction_column": null,
+  "context_column": null,
+  "num_labels": 4,
+  "label2id": {
+    "Irrelevant": 0,
+    "Negative": 1,
+    "Neutral": 2,
+    "Positive": 3
+  },
+  "id2label": {
+    "0": "Irrelevant",
+    "1": "Negative",
+    "2": "Neutral",
+    "3": "Positive"
+  }
+}

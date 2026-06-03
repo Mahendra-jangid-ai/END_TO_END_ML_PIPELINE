@@ -1,15 +1,3 @@
-"""
-Universal NLP Dataset Preprocessing Engine for LLM Fine-Tuning
-══════════════════════════════════════════════════════════════
-Implements the 7 basic cleaning steps:
-  1. Remove Null Values
-  2. Remove Empty Text
-  3. Remove Duplicate Records
-  4. Trim Extra Spaces
-  5. Fix Encoding Issues
-  6. Remove Corrupted/Broken Text
-  7. Basic Label Validation
-"""
 from __future__ import annotations
 
 import html
@@ -24,7 +12,7 @@ from src.utils.common import get_logger
 
 logger = get_logger(__name__)
 
-# Regex patterns for advanced text cleaning and masking
+
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 URL_RE = re.compile(r"https?://\S+|www\.\S+")
 EMAIL_RE = re.compile(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b")
@@ -33,22 +21,17 @@ PHONE_RE = re.compile(
     r"|\b(?:\d{3,5}[-.\s]\d{3,5}[-.\s]\d{4}|\d{5}[-.\s]\d{5}|\d{10})\b"
 )
 
-# PII Patterns
+
 AADHAAR_RE = re.compile(r"\b[2-9]\d{3}[-\s]?\d{4}[-\s]?\d{4}\b")
 PAN_RE = re.compile(r"\b[A-Z]{5}\d{4}[A-Z]\b", re.IGNORECASE)
 CREDIT_CARD_RE = re.compile(r"\b(?:\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}|\d{4}[-\s]?\d{6}[-\s]?\d{5})\b")
 SSN_RE = re.compile(r"\b\d{3}-\d{2}-\d{4}\b")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 5. Fix Encoding Issues
-# ─────────────────────────────────────────────────────────────────────────────
-
 def heal_mojibake(text: str) -> str:
-    """Heal common Mojibake encoding artifacts."""
     if not isinstance(text, str):
         return text
-    # Try dynamic CP1252 to UTF-8 healing
+
     try:
         if any(ord(c) > 127 for c in text):
             candidate = text.encode("cp1252").decode("utf-8")
@@ -70,57 +53,41 @@ def heal_mojibake(text: str) -> str:
 
 
 def normalize_unicode(text: str) -> str:
-    """Apply NFKC normalization to text."""
     if not isinstance(text, str):
         return text
     return unicodedata.normalize("NFKC", text)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 4. Trim Extra Spaces
-# ─────────────────────────────────────────────────────────────────────────────
-
 def clean_spaces(text: str) -> str:
-    """Trim leading/trailing whitespace and collapse consecutive spaces."""
     if not isinstance(text, str):
         return text
     text = text.replace("\t", " ")
     text = text.replace("\r\n", "\n").replace("\r", "\n")
-    # Replace multiple spaces with a single space
+
     text = re.sub(r"[ \t]+", " ", text)
-    # Collapse multiple newlines to double newline
+
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 6. Remove Corrupted/Broken Text
-# ─────────────────────────────────────────────────────────────────────────────
-
 def is_corrupted_text(text: str) -> bool:
-    """Detect OCR word corruption and keyboard mashes (excessively long words)."""
     if not isinstance(text, str):
         return True
-    
-    # 1. OCR Corruption Heuristic (e.g. letters and numbers mixed inside a word like "he11o")
+
+
     if re.search(r"\b[a-zA-Z]+\d+[a-zA-Z]+\b", text):
         return True
-        
-    # 2. Keyboard Mash Heuristic (e.g. words that are too long without spaces)
+
+
     words = text.split()
     for w in words:
         if len(w) > 40:
             return True
-            
+
     return False
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 7. Basic Label Validation
-# ─────────────────────────────────────────────────────────────────────────────
-
 def validate_and_clean_label(val: Any, task_type: str) -> tuple[Any, bool]:
-    """Validate labels, lowercase classification labels, or convert regression labels to float."""
     if val is None or (isinstance(val, float) and pd.isna(val)):
         return None, False
 
@@ -130,19 +97,14 @@ def validate_and_clean_label(val: Any, task_type: str) -> tuple[Any, bool]:
         except (ValueError, TypeError):
             return None, False
     else:
-        # classification
+
         val_str = str(val).strip()
         if not val_str or val_str.lower() in {"nan", "null", "none"}:
             return None, False
         return val_str.lower(), True
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 3. Remove Duplicate Records
-# ─────────────────────────────────────────────────────────────────────────────
-
 def remove_duplicate_rows(dataset: Any, text_columns: List[str]) -> tuple[Any, int]:
-    """Remove exact duplicate rows based on text columns using pandas drop_duplicates."""
     before = len(dataset)
     try:
         cols_present = [c for c in text_columns if c in dataset.column_names]
@@ -158,21 +120,16 @@ def remove_duplicate_rows(dataset: Any, text_columns: List[str]) -> tuple[Any, i
         return dataset, 0
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Batch Processing Mapper
-# ─────────────────────────────────────────────────────────────────────────────
-
 def _clean_and_audit_batch(
     batch: Dict[str, List],
     text_columns: List[str],
     label_columns: List[str],
     task_info: Dict[str, Any],
 ) -> Dict[str, List]:
-    """Clean text, validate labels, and audit row quality flag for batch map function."""
     task_type = task_info.get("task", "classification")
 
     cleaned_batch = {col: [] for col in batch.keys()}
-    
+
     is_null_list = []
     is_empty_list = []
     is_corrupted_list = []
@@ -181,7 +138,7 @@ def _clean_and_audit_batch(
     mojibake_fixes = []
     spaces_normalized = []
     unicode_normalizations = []
-    
+
     html_removed = []
     urls_masked = []
     emails_masked = []
@@ -199,14 +156,14 @@ def _clean_and_audit_batch(
         m_fix = 0
         s_norm = 0
         u_norm = 0
-        
+
         html_rem = 0
         url_msk = 0
         email_msk = 0
         phone_msk = 0
         pii_msk = 0
 
-        # Process text columns
+
         for col in text_columns:
             val = batch[col][i]
             if val is None or (isinstance(val, float) and pd.isna(val)):
@@ -220,42 +177,42 @@ def _clean_and_audit_batch(
                 cleaned_batch[col].append(val_str)
                 continue
 
-            # Mojibake fixes
+
             healed = heal_mojibake(val_str)
             if healed != val_str:
                 m_fix += 1
                 val_str = healed
 
-            # Unicode normalization
+
             norm = normalize_unicode(val_str)
             if norm != val_str:
                 u_norm += 1
                 val_str = norm
 
-            # 1. HTML Tag Removal
+
             html_cleaned = HTML_TAG_RE.sub(" ", val_str)
             if html_cleaned != val_str:
                 html_rem += 1
                 val_str = html_cleaned
 
-            # HTML entity decoding (Unescape)
+
             decoded = html.unescape(val_str)
             if decoded != val_str:
                 val_str = decoded
 
-            # 2. URL Handling
+
             url_cleaned = URL_RE.sub("<URL>", val_str)
             if url_cleaned != val_str:
                 url_msk += 1
                 val_str = url_cleaned
 
-            # 3. Email Masking
+
             email_cleaned = EMAIL_RE.sub("<EMAIL>", val_str)
             if email_cleaned != val_str:
                 email_msk += 1
                 val_str = email_cleaned
 
-            # 5. PII Masking (CC first to avoid Aadhaar collision)
+
             cc_cleaned = CREDIT_CARD_RE.sub("<CREDIT_CARD>", val_str)
             cc_changed = (cc_cleaned != val_str)
             val_str = cc_cleaned
@@ -275,25 +232,25 @@ def _clean_and_audit_batch(
             if cc_changed or aadhaar_changed or pan_changed or ssn_changed:
                 pii_msk += 1
 
-            # 4. Phone Number Masking
+
             phone_cleaned = PHONE_RE.sub("<PHONE>", val_str)
             if phone_cleaned != val_str:
                 phone_msk += 1
                 val_str = phone_cleaned
 
-            # Space collapsing and trimming
+
             trimmed = clean_spaces(val_str)
             if trimmed != val_str:
                 s_norm += 1
                 val_str = trimmed
 
-            # Corrupted text heuristics
+
             if is_corrupted_text(val_str):
                 is_corrupted = True
 
             cleaned_batch[col].append(val_str)
 
-        # Process label columns
+
         for col in label_columns:
             val = batch[col][i]
             cleaned_val, is_valid = validate_and_clean_label(val, task_type)
@@ -301,7 +258,7 @@ def _clean_and_audit_batch(
                 is_invalid_label = True
             cleaned_batch[col].append(cleaned_val)
 
-        # Append non-text and non-label columns
+
         for col in batch.keys():
             if col not in text_columns and col not in label_columns:
                 cleaned_batch[col].append(batch[col][i])
@@ -314,7 +271,7 @@ def _clean_and_audit_batch(
         mojibake_fixes.append(m_fix)
         spaces_normalized.append(s_norm)
         unicode_normalizations.append(u_norm)
-        
+
         html_removed.append(html_rem)
         urls_masked.append(url_msk)
         emails_masked.append(email_msk)
@@ -329,7 +286,7 @@ def _clean_and_audit_batch(
     cleaned_batch["__mojibake_fixes"] = mojibake_fixes
     cleaned_batch["__spaces_normalized"] = spaces_normalized
     cleaned_batch["__unicode_normalizations"] = unicode_normalizations
-    
+
     cleaned_batch["__html_removed"] = html_removed
     cleaned_batch["__urls_masked"] = urls_masked
     cleaned_batch["__emails_masked"] = emails_masked
@@ -339,19 +296,11 @@ def _clean_and_audit_batch(
     return cleaned_batch
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Main orchestrator function
-# ─────────────────────────────────────────────────────────────────────────────
-
 def preprocess_dataset(
     dataset: Any,
     cfg: DictConfig | None = None,
     task_info: dict[str, Any] | None = None,
 ):
-    """
-    Universal Preprocessing Entry Point.
-    Processes either a Dataset or a DatasetDict and implements the 7 basic cleaning steps.
-    """
     from datasets import Dataset, DatasetDict
 
     if task_info is None:
@@ -415,14 +364,14 @@ def preprocess_dataset(
 
             logger.info(f"Preprocessing split '{split_name}' ({len(ds)} rows)...")
 
-            # Map generic cleanup batch
+
             mapped_ds = ds.map(
                 lambda batch: _clean_and_audit_batch(batch, text_columns, label_columns, task_info),
                 batched=True,
                 desc=f"Cleaning split '{split_name}'"
             )
 
-            # Filter step 1, 2, 6, 7
+
             before_len = len(mapped_ds)
             cleaned_ds = mapped_ds.filter(
                 lambda x: not (x["__is_null"] or x["__is_empty"] or x["__is_corrupted"] or x["__is_invalid_label"]),
@@ -430,10 +379,10 @@ def preprocess_dataset(
             )
             filtered_count = before_len - len(cleaned_ds)
 
-            # Step 3: exact duplicate removal
+
             cleaned_ds, removed_dupes = remove_duplicate_rows(cleaned_ds, text_columns)
 
-            # Accumulate report metrics
+
             m_fixes = sum(mapped_ds["__mojibake_fixes"])
             s_norms = sum(mapped_ds["__spaces_normalized"])
             u_norms = sum(mapped_ds["__unicode_normalizations"])
@@ -460,14 +409,14 @@ def preprocess_dataset(
                 "duplicates_removed": removed_dupes
             }
 
-            # Drop temporary metadata columns
+
             cols_to_remove = [c for c in cleaned_ds.column_names if c.startswith("__")]
             final_ds = cleaned_ds.remove_columns(cols_to_remove)
             cleaned_splits[split_name] = final_ds
 
         combined_cleaned_ds = DatasetDict(cleaned_splits)
 
-        # Consolidate reports
+
         total_processed = sum(r["total_rows_processed"] for r in split_reports.values())
         total_cleaned = sum(r["total_rows_cleaned"] for r in split_reports.values())
         mojibake_fixes = sum(r["mojibake_fixes"] for r in split_reports.values())
@@ -496,7 +445,7 @@ def preprocess_dataset(
             "pii_masked": pii_masked
         }
 
-        # Keep output reports compatible with train.py
+
         quality_report = {
             "average_quality_score": 100.0,
             "category_counts": {
@@ -506,7 +455,7 @@ def preprocess_dataset(
         }
 
         row_level_audit = {sname: [] for sname in split_reports.keys()}
-        
+
         issue_summary = {
             "total_warnings": 0,
             "total_errors": 0,
@@ -548,7 +497,7 @@ def preprocess_dataset(
         )
 
     else:
-        # Single Dataset
+
         if len(dataset) == 0:
             return dataset, {}, {}, [], {}, [], []
 
@@ -577,7 +526,7 @@ def preprocess_dataset(
         emails_msk = sum(mapped_ds["__emails_masked"])
         phones_msk = sum(mapped_ds["__phones_masked"])
         pii_msk = sum(mapped_ds["__pii_masked"])
-        
+
         null_removed = sum(mapped_ds["__is_null"])
         empty_removed = sum(mapped_ds["__is_empty"])
         corrupted_removed = filtered_count - null_removed - empty_removed
@@ -604,7 +553,7 @@ def preprocess_dataset(
         }
 
         row_level_audit = []
-        
+
         issue_summary = {
             "total_warnings": 0,
             "total_errors": 0,

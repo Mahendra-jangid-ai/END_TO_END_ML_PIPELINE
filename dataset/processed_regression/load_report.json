@@ -1,0 +1,132 @@
+{
+  "splits": {
+    "train": {
+      "path": "dataset\\processed_regression\\train.parquet",
+      "rows": 50767,
+      "format": "parquet",
+      "num_columns": 2,
+      "columns": [
+        "prompt",
+        "response"
+      ]
+    },
+    "validation": {
+      "path": "dataset\\processed_regression\\validation.parquet",
+      "rows": 6633,
+      "format": "parquet",
+      "num_columns": 2,
+      "columns": [
+        "prompt",
+        "response"
+      ]
+    },
+    "test": {
+      "path": "dataset\\processed_regression\\test.parquet",
+      "rows": 6574,
+      "format": "parquet",
+      "num_columns": 2,
+      "columns": [
+        "prompt",
+        "response"
+      ]
+    }
+  },
+  "total_splits": 3,
+  "detected_task": "classification",
+  "task_info": {
+    "task": "classification",
+    "text_column": "formatted_text",
+    "label_column": "sentiment",
+    "text_columns": [
+      "formatted_text"
+    ],
+    "label_columns": [
+      "sentiment"
+    ],
+    "sub_task": "classification",
+    "problem_type": "classification",
+    "detected_columns": {
+      "text": [
+        "game",
+        "text"
+      ],
+      "label": [
+        "sentiment"
+      ]
+    },
+    "input_column": "game, text",
+    "output_column": "sentiment",
+    "instruction_column": null,
+    "context_column": null,
+    "num_labels": 4,
+    "label2id": {
+      "Irrelevant": 0,
+      "Negative": 1,
+      "Neutral": 2,
+      "Positive": 3
+    },
+    "id2label": {
+      "0": "Irrelevant",
+      "1": "Negative",
+      "2": "Neutral",
+      "3": "Positive"
+    }
+  },
+  "artifacts": {
+    "task_info_json": "dataset\\processed_regression\\task_info.json",
+    "task_name_file": "dataset\\processed_regression\\detected_task.txt"
+  },
+  "tokenized_dataset": {
+    "path": "dataset\\processed_regression\\tokenized",
+    "splits": [
+      "train",
+      "validation",
+      "test"
+    ]
+  },
+  "cleaning_report": {
+    "total_rows_processed": 74682,
+    "total_rows_cleaned": 16744,
+    "mojibake_fixes": 0,
+    "spaces_normalized": 8865,
+    "unicode_normalizations": 3606,
+    "html_tags_removed": 2428,
+    "urls_masked": 1706,
+    "emails_masked": 8,
+    "phones_masked": 106,
+    "pii_masked": 25
+  },
+  "quality_report": {
+    "average_quality_score": 100.0,
+    "category_counts": {
+      "CLEAN": 63974,
+      "CORRUPTED": 8206
+    }
+  },
+  "row_level_audit": {
+    "train": [],
+    "validation": [],
+    "test": []
+  },
+  "issue_summary": {
+    "total_warnings": 0,
+    "total_errors": 0,
+    "corrupted_rows_count": 8206,
+    "corrupted_rows_removed": 8206,
+    "duplicates_removed": 2502
+  },
+  "warnings": [
+    "Removed 686 rows containing null values.",
+    "Removed 172 rows containing empty text.",
+    "Removed 7348 rows containing corrupted or invalid labels.",
+    "Removed 2502 exact duplicate records.",
+    "Removed HTML tags from 2428 rows.",
+    "Masked URLs in 1706 rows.",
+    "Masked Email addresses in 8 rows.",
+    "Masked Phone numbers in 106 rows.",
+    "Removed PII card/ID details from 25 rows."
+  ],
+  "recommendations": [
+    "Universal Preprocessing completed successfully. Dataset is clean, masked, and ready for training."
+  ]
+}
